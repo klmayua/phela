@@ -70,7 +70,6 @@ const featuredEvent = {
 };
 
 export default function CinematicHomePage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [trendingIndex, setTrendingIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -115,7 +114,7 @@ export default function CinematicHomePage() {
             </span>
           </Link>
 
-          {/* Nav Items with Premium Hover */}
+          {/* Nav Items - Desktop Only */}
           <div className="hidden md:flex items-center gap-8">
             {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item, i) => (
               <Link key={item} href={`/${item.toLowerCase()}`} className="relative font-sans text-[15px] font-medium text-white/72 hover:text-white transition-all duration-300 group">
@@ -125,8 +124,8 @@ export default function CinematicHomePage() {
             ))}
           </div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-3">
+          {/* Right Actions - Desktop Only */}
+          <div className="hidden md:flex items-center gap-3">
             <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
               <Search size={18} />
             </button>
@@ -140,28 +139,9 @@ export default function CinematicHomePage() {
             <button className="w-10 h-10 rounded-full phela-gradient flex items-center justify-center text-white shadow-glow-purple">
               <User size={18} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
           </div>
         </div>
       </motion.nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="fixed top-0 left-0 right-0 z-40 pt-24 px-6 md:hidden">
-            <div className="bg-slate/95 backdrop-blur-xl rounded-3xl border border-white/8 p-6">
-              {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item) => (
-                <Link key={item} href={`/${item.toLowerCase()}`} className="block py-3 text-lg font-medium text-white border-b border-white/5" onClick={() => setMobileMenuOpen(false)}>
-                  {item}
-                </Link>
-              ))}
-              <button className="w-full mt-4 py-3 rounded-xl phela-gradient text-white font-semibold">Get Access</button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Hero Section */}
       <section className="relative z-10 min-h-[88vh] flex items-center py-24 md:py-32 px-6">
@@ -413,19 +393,19 @@ export default function CinematicHomePage() {
         </div>
       </section>
 
-      {/* Mobile Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 glass md:hidden">
-        <div className="flex items-center justify-around py-3">
+      {/* Mobile Bottom Floating Nav */}
+      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md">
+        <div className="flex items-center justify-around h-16 px-4 rounded-full bg-slate/80 backdrop-blur-xl border border-white/8">
           {[
-            { icon: Sparkles, label: "Home", href: "/", active: true },
-            { icon: Calendar, label: "Events", href: "/events", active: false },
-            { icon: Search, label: "Discover", href: "/discover", active: false },
-            { icon: Heart, label: "Saved", href: "/saved", active: false },
-            { icon: User, label: "Profile", href: "/profile", active: false },
+            { icon: Sparkles, label: "Home", href: "/" },
+            { icon: Calendar, label: "Events", href: "/events" },
+            { icon: Search, label: "Discover", href: "/discover" },
+            { icon: Heart, label: "Saved", href: "/saved" },
+            { icon: User, label: "Profile", href: "/profile" },
           ].map((item) => (
-            <Link key={item.label} href={item.href} className={`flex flex-col items-center gap-1 p-2 ${item.active ? "text-phela-purple" : "text-text-muted"}`}>
+            <Link key={item.label} href={item.href} className="flex flex-col items-center gap-1 p-2 text-white/60 hover:text-white transition-colors">
               <item.icon size={20} />
-              <span className="text-xs">{item.label}</span>
+              <span className="text-[10px]">{item.label}</span>
             </Link>
           ))}
         </div>
