@@ -95,6 +95,10 @@ body {
   box-shadow: 0 0 30px rgba(111,70,255,.18);
 }
 
+.text-shadow-lg {
+  text-shadow: 0 10px 40px rgba(0,0,0,.45);
+}
+
 .glow-cyan {
   box-shadow: var(--glow-cyan);
 }
