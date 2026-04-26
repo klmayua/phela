@@ -104,13 +104,13 @@ export default function CinematicHomePage() {
 
       {/* Floating Navbar - Premium Glassmorphism */}
       <motion.nav style={{ opacity }} className="fixed top-3 left-3 right-3 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[94%] md:max-w-7xl mx-auto">
-        <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/30 backdrop-blur-2xl border border-white/5 md:border-white/8 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/25 backdrop-blur-2xl md:bg-slate/30 border border-white/[0.03] md:border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="w-9 h-9 md:w-14 md:h-14 relative rounded-full overflow-hidden shadow-[0_0_20px_rgba(111,70,255,0.3)]">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
-            <span className="font-display text-base md:text-xl font-light tracking-[0.12em] md:tracking-[0.18em] text-white/70 group-hover:text-white/90 transition-all">
+            <span className="font-display text-base md:text-xl font-light tracking-[0.12em] md:tracking-[0.18em] text-white/60 md:text-white/70 group-hover:text-white/90 transition-all">
               PHELA
             </span>
           </Link>
@@ -150,11 +150,46 @@ export default function CinematicHomePage() {
         </div>
       </motion.nav>
 
-      {/* Hero Section */}
-      <section className="relative z-10 min-h-[55vh] md:min-h-[80vh] flex items-center pt-20 pb-8 md:py-20 px-4 md:px-6">
+{/* Hero Section - Featured Event First */}
+      <section className="relative z-10 min-h-[55vh] md:min-h-[80vh] flex items-center pt-20 pb-8 md:py-20 px-3 md:px-6">
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[48%_52%] gap-6 md:gap-10 items-center">
           
-          {/* Left Column */}
+          {/* Left Column - Featured Event */}
+          <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="">
+            <Link href={`/events/${featuredEvent.id}`}>
+              <div className="relative h-[320px] md:h-[500px] lg:h-[640px] rounded-2xl md:rounded-[28px] overflow-hidden group cursor-pointer">
+                <Image src={featuredEvent.heroImage} alt={featuredEvent.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/15 to-black/15" />
+                <div className="absolute top-4 md:top-6 left-4 md:left-6">
+                  <span className="px-3 py-1.5 rounded-full bg-vivid-cyan/20 backdrop-blur-sm border border-vivid-cyan/30 text-vivid-cyan text-xs font-bold">FEATURED</span>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+                  <h3 className="font-display text-[28px] md:text-[42px] font-extrabold text-white mb-2 md:mb-3 leading-tight">{featuredEvent.title}</h3>
+                  <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-3 md:mb-4">
+                    <span className="px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm text-vivid-cyan font-medium flex items-center gap-2">
+                      <MapPin size={14} /> {featuredEvent.venue}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3 md:gap-6 text-white/62 text-xs md:text-sm mb-4 md:mb-6">
+                    <span className="flex items-center gap-2"><MapPin size={14} className="text-vivid-cyan" /> {featuredEvent.date}</span>
+                    <span className="flex items-center gap-2"><Clock size={14} /> {featuredEvent.time}</span>
+                    <span className="flex items-center gap-2"><Users size={14} /> {featuredEvent.attendees}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-white/52 text-xs md:text-sm">From</p>
+                      <p className="font-display text-[24px] md:text-[34px] font-extrabold text-white">{featuredEvent.price}</p>
+                    </div>
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="font-sans font-semibold px-6 md:px-8 py-3 md:py-4 rounded-full phela-gradient text-white hover:shadow-glow-purple">
+                      Book Now
+                    </motion.button>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Right Column - Tagline */}
           <motion.div className="max-w-[650px]">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-vivid-cyan/10 border border-vivid-cyan/25 mb-4 md:mt-2 md:mb-6">
               <span className="w-2 h-2 rounded-full bg-vivid-cyan animate-pulse" />
@@ -170,8 +205,8 @@ export default function CinematicHomePage() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-phela-purple to-vivid-cyan">PULSE</span>
             </motion.h1>
 
-            <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="font-sans text-sm md:text-lg text-white/75 leading-[1.4] max-w-[450px] mb-4 md:mb-6">
-              Discover concerts, rooftop sessions & unforgettable nights.
+            <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-white/55 text-sm md:text-base lg:text-lg max-w-md mb-6 md:mb-8">
+              Discover Nairobi's hottest events, exclusive parties, and unforgettable nights. Your gateway to the city's vibrant nightlife.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-3">
@@ -184,41 +219,6 @@ export default function CinematicHomePage() {
                 Watch Reel
               </motion.button>
             </motion.div>
-          </motion.div>
-
-          {/* Right Column - Featured Event */}
-          <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} className="hidden lg:block">
-            <Link href={`/events/${featuredEvent.id}`}>
-              <div className="relative h-[350px] md:h-[500px] lg:h-[640px] rounded-2xl md:rounded-[28px] overflow-hidden group cursor-pointer">
-                <Image src={featuredEvent.heroImage} alt={featuredEvent.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/15 to-black/15" />
-                <div className="absolute top-6 left-6">
-                  <span className="px-3 py-1.5 rounded-full bg-vivid-cyan/20 backdrop-blur-sm border border-vivid-cyan/30 text-vivid-cyan text-xs font-bold">FEATURED</span>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <h3 className="font-display text-[42px] font-extrabold text-white mb-2 leading-tight">{featuredEvent.title}</h3>
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm text-vivid-cyan font-medium flex items-center gap-2">
-                      <MapPin size={14} /> {featuredEvent.venue}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-6 text-white/62 text-sm mb-6">
-                    <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm"><MapPin size={14} className="text-vivid-cyan" /> {featuredEvent.date}</span>
-                    <span className="flex items-center gap-2"><Clock size={14} /> {featuredEvent.time}</span>
-                    <span className="flex items-center gap-2"><Users size={14} /> {featuredEvent.attendees} going</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-white/52 text-sm">From</p>
-                      <p className="font-display text-[34px] font-extrabold text-white">{featuredEvent.price}</p>
-                    </div>
-                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="font-sans font-semibold px-8 py-4 rounded-full phela-gradient text-white hover:shadow-glow-purple">
-                      Book Now
-                    </motion.button>
-                  </div>
-                </div>
-              </div>
-            </Link>
           </motion.div>
         </div>
       </section>
