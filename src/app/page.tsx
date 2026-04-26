@@ -102,49 +102,49 @@ export default function CinematicHomePage() {
         ))}
       </div>
 
-      {/* Floating Navbar */}
-      <motion.nav style={{ opacity }} className="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[96%] md:max-w-7xl mx-auto">
-        <div className="flex items-center justify-between h-14 md:h-[74px] px-4 md:px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl glow-purple-sm">
-          {/* Logo - Always visible */}
+      {/* Floating Navbar - Premium Glassmorphism */}
+      <motion.nav style={{ opacity }} className="fixed top-3 left-3 right-3 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[94%] md:max-w-7xl mx-auto">
+        <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/30 backdrop-blur-2xl border border-white/5 md:border-white/8 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
-            <div className="w-10 h-10 md:w-16 md:h-16 relative rounded-full overflow-hidden shadow-glow-purple">
+            <div className="w-9 h-9 md:w-14 md:h-14 relative rounded-full overflow-hidden shadow-[0_0_20px_rgba(111,70,255,0.3)]">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
-            <span className="font-display text-lg md:text-2xl font-light tracking-[0.15em] md:tracking-[0.2em] text-white/80 group-hover:opacity-70 transition-opacity">
+            <span className="font-display text-base md:text-xl font-light tracking-[0.12em] md:tracking-[0.18em] text-white/70 group-hover:text-white/90 transition-all">
               PHELA
             </span>
           </Link>
 
           {/* Nav Items - Desktop Only */}
           <div className="hidden md:flex items-center gap-8">
-            {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item, i) => (
-              <Link key={item} href={`/${item.toLowerCase()}`} className="relative font-sans text-[15px] font-medium text-white/72 hover:text-white transition-all duration-300 group">
+            {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item) => (
+              <Link key={item} href={`/${item.toLowerCase()}`} className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-phela-purple group-hover:w-full transition-all duration-300 ease-out" />
+                <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
               </Link>
             ))}
           </div>
 
           {/* Right Actions - Icons */}
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="hidden md:flex items-center gap-3">
-              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
-                <Search size={18} />
+            <div className="hidden md:flex items-center gap-2">
+              <button className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all">
+                <Search size={16} />
               </button>
-              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors relative">
-                <Bell size={18} />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full" />
+              <button className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all relative">
+                <Bell size={16} />
+                <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-danger rounded-full" />
               </button>
-              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
-                <Wallet size={18} />
+              <button className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all">
+                <Wallet size={16} />
               </button>
-              <button className="w-10 h-10 rounded-full phela-gradient flex items-center justify-center text-white shadow-glow-purple">
-                <User size={18} />
+              <button className="w-9 h-9 rounded-full bg-gradient-to-br from-phela-purple to-electric-indigo flex items-center justify-center text-white shadow-[0_4px_20px_rgba(111,70,255,0.4)]">
+                <User size={16} />
               </button>
             </div>
-            {/* Mobile - Just User icon on far right */}
-            <button className="md:hidden w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white/70">
-              <User size={16} />
+            {/* Mobile - subtle icon */}
+            <button className="md:hidden w-8 h-8 rounded-full bg-gradient-to-br from-phela-purple to-electric-indigo flex items-center justify-center text-white shadow-[0_2px_12px_rgba(111,70,255,0.4)]">
+              <User size={14} />
             </button>
           </div>
         </div>
