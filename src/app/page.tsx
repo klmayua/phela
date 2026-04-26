@@ -205,11 +205,15 @@ export default function CinematicHomePage() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <h3 className="font-display text-[42px] font-extrabold text-white mb-2 leading-tight">{featuredEvent.title}</h3>
-                  <p className="text-vivid-cyan font-medium mb-4">{featuredEvent.venue}</p>
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm text-vivid-cyan font-medium flex items-center gap-2">
+                      <MapPin size={14} /> {featuredEvent.venue}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-6 text-white/62 text-sm mb-6">
-                    <span className="flex items-center gap-2"><MapPin size={16} /> {featuredEvent.date}</span>
-                    <span className="flex items-center gap-2"><Clock size={16} /> {featuredEvent.time}</span>
-                    <span className="flex items-center gap-2"><Users size={16} /> {featuredEvent.attendees} going</span>
+                    <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm"><MapPin size={14} className="text-vivid-cyan" /> {featuredEvent.date}</span>
+                    <span className="flex items-center gap-2"><Clock size={14} /> {featuredEvent.time}</span>
+                    <span className="flex items-center gap-2"><Users size={14} /> {featuredEvent.attendees} going</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
