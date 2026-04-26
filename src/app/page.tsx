@@ -29,12 +29,12 @@ import {
 } from "lucide-react";
 
 const trendingEvents = [
-  { id: 1, title: "Midnight Sessions Vol. 42", venue: "Club Cubic", date: "Tonight", price: "KES 2,500", image: "🎵", attendees: 847, trending: true },
-  { id: 2, title: "Afrobeat Sunday", venue: "The Garage", date: "Tomorrow", price: "KES 1,500", image: "🔥", attendees: 234 },
-  { id: 3, title: "Rooftop Vibes", venue: "360° Terrace", date: "Sat", price: "KES 3,000", image: "🌙", attendees: 156 },
-  { id: 4, title: "Amapiano Takeover", venue: "Sky Lounge", date: "Sat", price: "KES 2,800", image: "🔥", attendees: 412 },
-  { id: 5, title: "Jazz Night Live", venue: "The Vault", date: "Sun", price: "KES 2,000", image: "🎷", attendees: 89 },
-  { id: 6, title: "Electronic Dreams", venue: "Flux Club", date: "Sun", price: "KES 2,200", image: "⚡", attendees: 298 },
+  { id: "midnight-sessions-vol-42", title: "Midnight Sessions Vol. 42", venue: "Club Cubic", date: "Tonight", price: "KES 2,500", image: "🎵", attendees: 847, trending: true },
+  { id: "afrobeat-sunday", title: "Afrobeat Sunday", venue: "The Garage", date: "Tomorrow", price: "KES 1,500", image: "🔥", attendees: 234 },
+  { id: "rooftop-vibes", title: "Rooftop Vibes", venue: "360° Terrace", date: "Sat", price: "KES 3,000", image: "🌙", attendees: 156 },
+  { id: "amapiano-takeover", title: "Amapiano Takeover", venue: "Sky Lounge", date: "Sat", price: "KES 2,800", image: "🔥", attendees: 412 },
+  { id: "jazz-night-live", title: "Jazz Night Live", venue: "The Vault", date: "Sun", price: "KES 2,000", image: "🎷", attendees: 89 },
+  { id: "electronic-dreams", title: "Electronic Dreams", venue: "Flux Club", date: "Sun", price: "KES 2,200", image: "⚡", attendees: 298 },
 ];
 
 const artists = [
@@ -60,7 +60,7 @@ const merch = [
 ];
 
 const featuredEvent = {
-  id: 1,
+  id: "midnight-sessions-vol-42",
   title: "Midnight Sessions Vol. 42",
   venue: "Club Cubic, Nairobi",
   date: "Saturday, April 26",
@@ -102,12 +102,12 @@ export default function CinematicHomePage() {
         ))}
       </div>
 
-      {/* Floating Navbar - Premium Glassmorphism */}
+{/* Floating Navbar - Sticky Premium Glassmorphism */}
       <motion.nav style={{ opacity }} className="fixed top-3 left-3 right-3 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[94%] md:max-w-7xl mx-auto">
         <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/25 backdrop-blur-2xl md:bg-slate/30 border border-white/[0.03] md:border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
-            <div className="w-9 h-9 md:w-14 md:h-14 relative rounded-full overflow-hidden shadow-[0_0_20px_rgba(111,70,255,0.3)]">
+            <div className="w-9 h-9 md:w-14 md:h-14 relative rounded-full overflow-hidden shadow-[0_0_20px_rgba(111,70, 255, 0.3)]">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
             <span className="font-display text-base md:text-xl font-light tracking-[0.12em] md:tracking-[0.18em] text-white/60 md:text-white/70 group-hover:text-white/90 transition-all">
@@ -125,7 +125,7 @@ export default function CinematicHomePage() {
             ))}
           </div>
 
-          {/* Right Actions - Icons */}
+          {/* Right Actions - Desktop Icons + Mobile Menu */}
           <div className="flex items-center gap-2 md:gap-3">
             <div className="hidden md:flex items-center gap-2">
               <button className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all">
@@ -142,10 +142,18 @@ export default function CinematicHomePage() {
                 <User size={16} />
               </button>
             </div>
-            {/* Mobile - subtle icon */}
-            <button className="md:hidden w-8 h-8 rounded-full bg-gradient-to-br from-phela-purple to-electric-indigo flex items-center justify-center text-white shadow-[0_2px_12px_rgba(111,70,255,0.4)]">
-              <User size={14} />
-            </button>
+            {/* Mobile - consistent with bottom nav */}
+            <div className="md:hidden flex items-center gap-1">
+              <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+                <Calendar size={18} className="text-white/60" strokeWidth={1.5} />
+              </Link>
+              <Link href="/discover" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+                <Search size={18} className="text-white/60" strokeWidth={1.5} />
+              </Link>
+              <button className="w-8 h-8 rounded-full bg-gradient-to-br from-phela-purple to-electric-indigo flex items-center justify-center text-white shadow-[0_2px_12px_rgba(111,70,255,0.4)]">
+                <User size={14} />
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -413,21 +421,29 @@ export default function CinematicHomePage() {
         </div>
       </section>
 
-      {/* Mobile Bottom Floating Nav - Premium Styling */}
+      {/* Mobile Bottom Floating Nav - Consistent with Top Nav */}
       <nav className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
-        <div className="flex items-center justify-between h-14 px-3 py-2 rounded-2xl bg-slate/60 backdrop-blur-xl border border-white/5">
-          {[
-            { IconComponent: Home, label: "Home", href: "/", active: true },
-            { IconComponent: Calendar, label: "Events", href: "/events", active: false },
-            { IconComponent: Search, label: "Discover", href: "/discover", active: false },
-            { IconComponent: Heart, label: "Saved", href: "/saved", active: false },
-            { IconComponent: User, label: "Profile", href: "/profile", active: false },
-          ].map(({ IconComponent, label, href, active }) => (
-            <Link key={label} href={href} className={`flex flex-col items-center gap-0.5 p-1.5 rounded-xl transition-all ${active ? "bg-phela-purple/15" : ""}`}>
-              <IconComponent size={active ? 22 : 20} className={active ? "text-phela-purple" : "text-white/50"} strokeWidth={active ? 2.5 : 1.5} />
-              <span className={`text-[9px] font-medium ${active ? "text-phela-purple" : "text-white/40"}`}>{label}</span>
-            </Link>
-          ))}
+        <div className="flex items-center justify-between h-14 px-2 py-2 rounded-2xl bg-slate/60 backdrop-blur-xl border border-white/5">
+          <Link href="/" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+            <Home size={20} className="text-phela-purple" strokeWidth={2.5} />
+            <span className="text-[9px] font-medium text-phela-purple">Home</span>
+          </Link>
+          <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+            <Calendar size={20} className="text-white/50" strokeWidth={1.5} />
+            <span className="text-[9px] font-medium text-white/40">Events</span>
+          </Link>
+          <Link href="/discover" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+            <Search size={20} className="text-white/50" strokeWidth={1.5} />
+            <span className="text-[9px] font-medium text-white/40">Discover</span>
+          </Link>
+          <Link href="/membership" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+            <Heart size={20} className="text-white/50" strokeWidth={1.5} />
+            <span className="text-[9px] font-medium text-white/40">Saved</span>
+          </Link>
+          <Link href="/profile" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+            <User size={20} className="text-white/50" strokeWidth={1.5} />
+            <span className="text-[9px] font-medium text-white/40">Profile</span>
+          </Link>
         </div>
       </nav>
     </main>
