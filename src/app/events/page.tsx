@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, 
@@ -93,8 +94,13 @@ export default function EventsPage() {
           </div>
           
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full phela-gradient flex items-center justify-center">
-              <span className="font-display text-lg font-bold text-white">P</span>
+            <div className="w-11 h-11 relative rounded-full overflow-hidden">
+              <Image 
+                src="/assets/phela_logo.png" 
+                alt="PHELA" 
+                fill 
+                className="object-contain bg-black"
+              />
             </div>
             <span className="font-display text-lg font-bold tracking-widest text-white hidden md:block">PHELA</span>
           </Link>

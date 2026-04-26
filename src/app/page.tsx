@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import { 
   Search, 
@@ -139,8 +140,13 @@ export default function CinematicHomePage() {
         <div className="flex items-center justify-between h-[74px] px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl glow-purple-sm">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full phela-gradient flex items-center justify-center shadow-glow-purple">
-              <span className="font-display text-xl font-bold text-white">P</span>
+            <div className="w-11 h-11 relative rounded-full overflow-hidden">
+              <Image 
+                src="/assets/phela_logo.png" 
+                alt="PHELA" 
+                fill 
+                className="object-contain bg-black"
+              />
             </div>
             <span className="font-display text-lg font-bold tracking-widest text-white hidden md:block">PHELA</span>
           </Link>
@@ -290,10 +296,17 @@ export default function CinematicHomePage() {
         className="hidden lg:block fixed right-8 bottom-24 z-20 w-[420px]"
       >
         <div className="bg-slate/60 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
-          {/* Card Header */}
+          {/* Event Card Header */}
           <div className="relative h-32 bg-gradient-to-br from-phela-purple/30 to-midnight">
-            <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-30">
-              🎵
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-16 h-16 relative">
+                <Image 
+                  src="/assets/phela_logo.png" 
+                  alt="PHELA" 
+                  fill 
+                  className="object-contain opacity-30"
+                />
+              </div>
             </div>
             <div className="absolute top-4 left-4">
               <span className="px-3 py-1 rounded-full bg-vivid-cyan/20 text-vivid-cyan text-xs font-bold">FEATURED</span>
