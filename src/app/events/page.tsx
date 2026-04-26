@@ -94,10 +94,10 @@ export default function EventsPage() {
           </div>
           
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 relative rounded-full overflow-hidden shadow-glow-purple">
+            <div className="w-16 h-16 relative rounded-full overflow-hidden shadow-glow-purple">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
-            <span className="font-display text-xl font-medium tracking-widest text-white hidden md:block group-hover:opacity-80 transition-opacity">PHELA</span>
+            <span className="font-display text-2xl font-light tracking-[0.2em] text-white/80 hidden md:block group-hover:opacity-70 transition-opacity">PHELA</span>
           </Link>
           
           <div className="flex items-center gap-3">

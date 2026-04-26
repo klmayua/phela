@@ -102,10 +102,10 @@ export default function CinematicHomePage() {
         <div className="flex items-center justify-between h-[74px] px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl glow-purple-sm">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-14 h-14 relative rounded-full overflow-hidden shadow-glow-purple">
+            <div className="w-16 h-16 relative rounded-full overflow-hidden shadow-glow-purple">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
-            <span className="font-display text-2xl font-medium tracking-widest text-white hidden md:block group-hover:opacity-80 transition-opacity">
+            <span className="font-display text-2xl font-light tracking-[0.2em] text-white/80 hidden md:block group-hover:opacity-70 transition-opacity">
               PHELA
             </span>
           </Link>
