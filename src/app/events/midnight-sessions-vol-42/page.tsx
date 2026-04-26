@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,7 +8,7 @@ import {
   Calendar, Clock, MapPin, Users,Wine, Car, Ticket, ChevronRight, 
   Play, Star, Heart, Share2, Minus, Plus, HelpCircle, MapPinned,
   CreditCard, Smartphone, DollarSign, Instagram, Twitter, Facebook,
-  ArrowLeft, Menu, X, Search, Bell, Wallet, User, Sparkles
+  ArrowLeft, Search, Bell, Wallet, User, Sparkles
 } from "lucide-react";
 
 const ticketTiers = [
@@ -65,14 +65,6 @@ export default function EventDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const toggleAddOn = (id: string) => {
     setSelectedAddOns(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
@@ -82,9 +74,9 @@ export default function EventDetailPage() {
 
   return (
     <div className="min-h-screen bg-midnight text-white">
-      {/* Floating Navbar */}
-      <motion.nav className={`fixed top-3 left-3 right-3 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[94%] md:max-w-7xl mx-auto transition-all duration-300 ${scrolled ? "bg-slate/80 backdrop-blur-2xl border border-white/10" : ""}`}>
-        <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/30 backdrop-blur-2xl border border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+      {/* Floating Navbar - Sticky Always */}
+      <nav className="fixed top-3 left-3 right-3 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[94%] md:max-w-7xl mx-auto">
+        <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/70 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="w-9 h-9 md:w-14 md:h-14 relative rounded-full overflow-hidden shadow-[0_0_20px_rgba(111,70,255,0.3)]">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
@@ -116,26 +108,20 @@ export default function EventDetailPage() {
             </button>
           </div>
 
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/60">
-            {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
-          </button>
+          {/* Mobile */}
+          <div className="md:hidden flex items-center gap-1">
+            <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+              <Calendar size={18} className="text-white/60" strokeWidth={1.5} />
+            </Link>
+            <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+              <Search size={18} className="text-white/60" strokeWidth={1.5} />
+            </Link>
+            <button className="w-8 h-8 rounded-full bg-gradient-to-br from-phela-purple to-electric-indigo flex items-center justify-center text-white shadow-[0_2px_12px_rgba(111,70,255,0.4)]">
+              <User size={14} />
+            </button>
+          </div>
         </div>
-      </motion.nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="fixed top-16 left-3 right-3 z-40 bg-surface/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 md:hidden">
-            <div className="flex flex-col gap-3">
-              {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item) => (
-                <Link key={item} href={`/${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} className="text-white/70 hover:text-white font-medium py-2 border-b border-white/5">
-                  {item}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </nav>
 
       {/* Breadcrumb */}
       <div className="pt-24 md:pt-28 px-4 md:px-6">

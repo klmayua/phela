@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, 
   Bell, 
@@ -73,11 +73,6 @@ const featuredEvent = {
 export default function CinematicHomePage() {
   const [trendingIndex, setTrendingIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const smoothY = useSpring(y1, { stiffness: 100, damping: 30 });
 
   const scrollLeft = () => setTrendingIndex(prev => Math.max(0, prev - 1));
   const scrollRight = () => setTrendingIndex(prev => Math.min(trendingEvents.length - 1, prev + 1));
@@ -102,9 +97,9 @@ export default function CinematicHomePage() {
         ))}
       </div>
 
-{/* Floating Navbar - Sticky Premium Glassmorphism */}
-      <motion.nav style={{ opacity }} className="fixed top-3 left-3 right-3 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[94%] md:max-w-7xl mx-auto">
-        <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/25 backdrop-blur-2xl md:bg-slate/30 border border-white/[0.03] md:border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+{/* Floating Navbar - Sticky Always */}
+      <nav className="fixed top-3 left-3 right-3 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[94%] md:max-w-7xl mx-auto">
+        <div className="flex items-center justify-between h-12 md:h-[72px] px-4 md:px-6 rounded-2xl md:rounded-full bg-slate/70 md:bg-slate/60 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="w-9 h-9 md:w-14 md:h-14 relative rounded-full overflow-hidden shadow-[0_0_20px_rgba(111,70, 255, 0.3)]">
@@ -117,12 +112,30 @@ export default function CinematicHomePage() {
 
           {/* Nav Items - Desktop Only */}
           <div className="hidden md:flex items-center gap-8">
-            {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item) => (
-              <Link key={item} href={`/${item.toLowerCase()}`} className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
-              </Link>
-            ))}
+            <Link href="/events" className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
+              Events
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
+            </Link>
+            <Link href="/events" className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
+              Artists
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
+            </Link>
+            <Link href="/events" className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
+              Venues
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
+            </Link>
+            <Link href="/events" className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
+              Nightlife
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
+            </Link>
+            <Link href="/events" className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
+              Merch
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
+            </Link>
+            <Link href="/events" className="relative font-sans text-[14px] font-medium text-white/55 hover:text-white transition-all duration-300 group">
+              Membership
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-phela-purple to-vivid-cyan group-hover:w-full transition-all duration-300 ease-out" />
+            </Link>
           </div>
 
           {/* Right Actions - Desktop Icons + Mobile Menu */}
@@ -147,7 +160,7 @@ export default function CinematicHomePage() {
               <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
                 <Calendar size={18} className="text-white/60" strokeWidth={1.5} />
               </Link>
-              <Link href="/discover" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+              <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
                 <Search size={18} className="text-white/60" strokeWidth={1.5} />
               </Link>
               <button className="w-8 h-8 rounded-full bg-gradient-to-br from-phela-purple to-electric-indigo flex items-center justify-center text-white shadow-[0_2px_12px_rgba(111,70,255,0.4)]">
@@ -155,8 +168,8 @@ export default function CinematicHomePage() {
               </button>
             </div>
           </div>
-        </div>
-      </motion.nav>
+</div>
+      </nav>
 
 {/* Hero Section - Featured Event First */}
       <section className="relative z-10 min-h-[55vh] md:min-h-[80vh] flex items-center pt-20 pb-4 md:py-20 px-3 md:px-6">
@@ -169,36 +182,45 @@ export default function CinematicHomePage() {
                 <Image src={featuredEvent.heroImage} alt={featuredEvent.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(111,70,255,0.15),transparent_50%)]" />
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="absolute top-4 md:top-6 left-4 md:left-6 flex items-center gap-2">
+                
+                {/* Top Row - Badge + Like */}
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
                   <span className="px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-phela-purple/40 text-phela-purple text-xs font-bold shadow-[0_0_20px_rgba(111,70,255,0.3)]">FEATURED</span>
-                </motion.div>
-                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8">
-                  <h3 className="font-display text-[28px] md:text-[42px] font-extrabold text-white mb-2 md:mb-3 leading-tight drop-shadow-lg">{featuredEvent.title}</h3>
-                  <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-3 md:mb-4">
-                    <span className="px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
-                      <MapPin size={14} className="text-vivid-cyan" /> {featuredEvent.venue}
-                    </span>
+                  <button className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white/70 hover:text-danger transition-colors">
+                    <Heart size={16} />
+                  </button>
+                </div>
+                
+                {/* Bottom Info - Left Aligned */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
+                  <h3 className="font-display text-xl md:text-[42px] font-bold text-white mb-2 md:mb-3 leading-tight drop-shadow-lg">{featuredEvent.title}</h3>
+                  
+                  <div className="flex items-center gap-2 mb-2">
+                    <MapPin size={14} className="text-vivid-cyan" />
+                    <span className="text-white/80 text-sm">{featuredEvent.venue}</span>
                   </div>
-                  <div className="flex flex-wrap items-center gap-3 md:gap-6 text-white/80 text-xs md:text-sm mb-4 md:mb-6">
-                    <span className="flex items-center gap-2 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm"><MapPin size={14} className="text-vivid-cyan" /> {featuredEvent.date}</span>
-                    <span className="flex items-center gap-2"><Clock size={14} /> {featuredEvent.time}</span>
-                    <span className="flex items-center gap-2"><Users size={14} /> {featuredEvent.attendees}</span>
+                  
+                  <div className="flex items-center gap-4 text-white/60 text-xs md:text-sm mb-3 md:mb-5">
+                    <span className="flex items-center gap-1"><Calendar size={12} /> {featuredEvent.date}</span>
+                    <span className="flex items-center gap-1"><Clock size={12} /> {featuredEvent.time}</span>
+                    <span className="flex items-center gap-1"><Users size={12} /> {featuredEvent.attendees}</span>
                   </div>
+                  
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/60 text-xs md:text-sm">From</p>
-                      <p className="font-display text-[24px] md:text-[34px] font-extrabold text-white drop-shadow-lg">{featuredEvent.price}</p>
+                      <p className="text-white/50 text-xs">From</p>
+                      <p className="font-display text-lg md:text-[34px] font-bold text-white">{featuredEvent.price}</p>
                     </div>
-                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="font-sans font-semibold px-6 md:px-8 py-3 md:py-4 rounded-full phela-gradient text-white hover:shadow-glow-purple">
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="font-sans font-semibold px-5 py-2.5 md:px-8 md:py-3 rounded-full phela-gradient text-white hover:shadow-glow-purple">
                       Book Now
                     </motion.button>
                   </div>
-                </div>
-              </div>
-            </Link>
-          </motion.div>
+</div>
+                  </div>
+                </Link>
+              </motion.div>
 
-          {/* Right Column - Tagline */}
+              {/* Right Column - Tagline */}
           <motion.div className="max-w-[650px]">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-vivid-cyan/10 border border-vivid-cyan/25 mb-4 md:mt-2 md:mb-6">
               <span className="w-2 h-2 rounded-full bg-vivid-cyan animate-pulse" />
@@ -340,12 +362,12 @@ export default function CinematicHomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h2 className="font-display text-2xl font-bold text-white">Live Venues</h2>
-            <Link href="/venues" className="text-phela-purple text-sm font-medium hover:text-white">See all <ChevronRight size={16} /></Link>
+            <Link href="/events" className="text-phela-purple text-sm font-medium hover:text-white">See all <ChevronRight size={16} /></Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {venues.map((venue, index) => (
               <motion.div key={venue.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * index }}>
-                <Link href={`/venues/${venue.id}`}>
+                <Link href="/events">
                   <div className="group p-5 rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all">
                     <div className="flex items-start justify-between mb-3">
                       <div className="w-10 h-10 rounded-full bg-slate flex items-center justify-center">
@@ -373,12 +395,12 @@ export default function CinematicHomePage() {
               <h2 className="font-display text-2xl font-bold text-white">Artist Spotlight</h2>
               <Star className="text-warning" size={20} />
             </div>
-            <Link href="/artists" className="text-phela-purple text-sm font-medium hover:text-white">See all <ChevronRight size={16} /></Link>
+            <Link href="/events" className="text-phela-purple text-sm font-medium hover:text-white">See all <ChevronRight size={16} /></Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {artists.map((artist, index) => (
               <motion.div key={artist.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 * index }}>
-                <Link href={`/artists/${artist.id}`}>
+                <Link href="/events">
                   <div className="group text-center p-5 rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all">
                     <div className="w-20 h-20 mx-auto rounded-full bg-slate flex items-center justify-center text-4xl mb-3">{artist.icon}</div>
                     <div className="flex items-center justify-center gap-1 mb-1">
@@ -402,7 +424,7 @@ export default function CinematicHomePage() {
               <h2 className="font-display text-2xl font-bold text-white">Merch Drop</h2>
               <span className="px-2 py-1 rounded-full bg-phela-purple/20 text-phela-purple text-xs font-bold">NEW</span>
             </div>
-            <Link href="/merch" className="text-phela-purple text-sm font-medium hover:text-white">Shop all <ChevronRight size={16} /></Link>
+            <Link href="/events" className="text-phela-purple text-sm font-medium hover:text-white">Shop all <ChevronRight size={16} /></Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {merch.map((item, index) => (
@@ -423,7 +445,7 @@ export default function CinematicHomePage() {
 
       {/* Mobile Bottom Floating Nav - Consistent with Top Nav */}
       <nav className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
-        <div className="flex items-center justify-between h-14 px-2 py-2 rounded-2xl bg-slate/60 backdrop-blur-xl border border-white/5">
+        <div className="flex items-center justify-between h-14 px-2 py-2 rounded-2xl bg-slate/70 backdrop-blur-xl border border-white/10">
           <Link href="/" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
             <Home size={20} className="text-phela-purple" strokeWidth={2.5} />
             <span className="text-[9px] font-medium text-phela-purple">Home</span>
@@ -432,15 +454,15 @@ export default function CinematicHomePage() {
             <Calendar size={20} className="text-white/50" strokeWidth={1.5} />
             <span className="text-[9px] font-medium text-white/40">Events</span>
           </Link>
-          <Link href="/discover" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+          <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
             <Search size={20} className="text-white/50" strokeWidth={1.5} />
             <span className="text-[9px] font-medium text-white/40">Discover</span>
           </Link>
-          <Link href="/membership" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+          <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
             <Heart size={20} className="text-white/50" strokeWidth={1.5} />
             <span className="text-[9px] font-medium text-white/40">Saved</span>
           </Link>
-          <Link href="/profile" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
+          <Link href="/events" className="flex flex-col items-center gap-0.5 p-1.5 rounded-xl">
             <User size={20} className="text-white/50" strokeWidth={1.5} />
             <span className="text-[9px] font-medium text-white/40">Profile</span>
           </Link>
