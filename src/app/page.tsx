@@ -151,12 +151,12 @@ export default function CinematicHomePage() {
       </motion.nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[55vh] md:min-h-[80vh] flex items-center py-10 md:py-20 px-4 md:px-6">
+      <section className="relative z-10 min-h-[55vh] md:min-h-[80vh] flex items-center pt-20 pb-8 md:py-20 px-4 md:px-6">
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[48%_52%] gap-6 md:gap-10 items-center">
           
           {/* Left Column */}
           <motion.div className="max-w-[650px]">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-vivid-cyan/12 border border-vivid-cyan/35 mb-4 md:mb-6">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-vivid-cyan/10 border border-vivid-cyan/25 mb-4 md:mt-2 md:mb-6">
               <span className="w-2 h-2 rounded-full bg-vivid-cyan animate-pulse" />
               <Sparkles size={12} className="text-vivid-cyan" />
               <span className="text-vivid-cyan text-xs md:text-sm font-bold tracking-widest">LIVE FROM NAIROBI</span>
