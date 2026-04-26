@@ -12,6 +12,7 @@ import {
   MapPin, 
   Ticket, 
   Heart,
+  ChevronLeft,
   ChevronRight,
   Clock,
   Users,
@@ -70,12 +71,16 @@ const featuredEvent = {
 
 export default function CinematicHomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [trendingIndex, setTrendingIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const smoothY = useSpring(y1, { stiffness: 100, damping: 30 });
+
+  const scrollLeft = () => setTrendingIndex(prev => Math.max(0, prev - 1));
+  const scrollRight = () => setTrendingIndex(prev => Math.min(trendingEvents.length - 1, prev + 1));
 
   return (
     <main ref={containerRef} className="min-h-screen bg-midnight overflow-x-hidden font-sans">
@@ -252,37 +257,72 @@ export default function CinematicHomePage() {
         </Link>
       </section>
 
-      {/* Trending Now */}
+      {/* Trending Now - Carousel */}
       <section className="relative z-10 py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-8">
-            <h2 className="font-display text-2xl font-bold text-white">Trending Now</h2>
-            <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
-            <Flame className="text-danger" size={20} />
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <h2 className="font-display text-2xl font-bold text-white">Trending Now</h2>
+              <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
+              <Flame className="text-danger" size={20} />
+            </div>
+            {/* Arrow Buttons */}
+            <div className="flex items-center gap-2">
+              <button onClick={scrollLeft} disabled={trendingIndex === 0} className="w-10 h-10 rounded-full bg-slate/80 border border-white/10 flex items-center justify-center text-white/72 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                <ChevronLeft size={20} />
+              </button>
+              <button onClick={scrollRight} disabled={trendingIndex >= trendingEvents.length - 1} className="w-10 h-10 rounded-full bg-slate/80 border border-white/10 flex items-center justify-center text-white/72 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                <ChevronRight size={20} />
+              </button>
+            </div>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 md:mx-0 md:px-0">
-            {trendingEvents.map((event, index) => (
-              <motion.div key={event.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 * index }} className="flex-shrink-0 w-72">
-                <Link href={`/events/${event.id}`}>
-                  <div className="group relative rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all overflow-hidden">
+          
+          {/* Carousel - Show one at a time on mobile */}
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={trendingIndex}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
+                className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0"
+              >
+                <Link href={`/events/${trendingEvents[trendingIndex].id}`} className="flex-shrink-0 w-[85vw] md:w-80 snap-start">
+                  <div className="group relative rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all overflow-hidden h-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-phela-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="relative z-10 p-5">
                       <div className="flex items-start justify-between mb-4">
-                        <div className="text-4xl">{event.image}</div>
-                        {event.trending && <span className="flex items-center gap-1 px-2 py-1 rounded-full bg-danger/20 text-danger text-xs font-semibold"><Flame size={10} /> HOT</span>}
+                        <div className="text-5xl">{trendingEvents[trendingIndex].image}</div>
+                        {trendingEvents[trendingIndex].trending && (
+                          <span className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-danger/20 text-danger text-sm font-bold">
+                            <Flame size={12} /> HOT
+                          </span>
+                        )}
                       </div>
-                      <h3 className="font-display font-semibold text-white mb-1 group-hover:text-phela-purple">{event.title}</h3>
-                      <p className="text-text-secondary text-sm mb-1">{event.venue}</p>
-                      <p className="text-text-muted text-sm mb-3">{event.date}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-phela-purple font-semibold">{event.price}</span>
-                        <span className="text-text-muted text-sm flex items-center gap-1"><Users size={12} /> {event.attendees}</span>
+                      <h3 className="font-display text-xl font-semibold text-white mb-2 group-hover:text-phela-purple transition-colors">
+                        {trendingEvents[trendingIndex].title}
+                      </h3>
+                      <p className="text-text-secondary mb-1">{trendingEvents[trendingIndex].venue}</p>
+                      <p className="text-text-muted mb-4">{trendingEvents[trendingIndex].date}</p>
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="text-phela-purple font-bold text-lg">{trendingEvents[trendingIndex].price}</span>
+                        <span className="text-text-muted flex items-center gap-2 text-sm">
+                          <Users size={14} /> {trendingEvents[trendingIndex].attendees}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </Link>
               </motion.div>
-            ))}
+            </AnimatePresence>
+            
+            {/* Dots indicator */}
+            <div className="flex items-center justify-center gap-2 mt-6 md:hidden">
+              {trendingEvents.map((_, i) => (
+                <button key={i} onClick={() => setTrendingIndex(i)} className={`w-2 h-2 rounded-full transition-all ${i === trendingIndex ? "w-6 bg-phela-purple" : "bg-white/20"}`} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
