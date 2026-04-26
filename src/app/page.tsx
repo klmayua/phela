@@ -98,23 +98,24 @@ export default function CinematicHomePage() {
       </div>
 
       {/* Floating Navbar */}
-      <motion.nav style={{ opacity }} className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl">
+      <motion.nav style={{ opacity }} className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-7xl">
         <div className="flex items-center justify-between h-[74px] px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl glow-purple-sm">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 group">
             <div className="w-14 h-14 relative rounded-full overflow-hidden shadow-glow-purple">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
-            <span className="font-display text-[28px] font-extrabold tracking-wider text-white bg-gradient-to-r from-white to-cfceff bg-clip-text text-transparent hidden md:block">
+            <span className="font-display text-2xl font-medium tracking-widest text-white hidden md:block group-hover:opacity-80 transition-opacity">
               PHELA
             </span>
           </Link>
 
-          {/* Nav Items */}
+          {/* Nav Items with Premium Hover */}
           <div className="hidden md:flex items-center gap-8">
-            {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item) => (
-              <Link key={item} href={`/${item.toLowerCase()}`} className="font-sans text-base font-medium text-white/82 hover:text-white transition-colors">
+            {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item, i) => (
+              <Link key={item} href={`/${item.toLowerCase()}`} className="relative font-sans text-[15px] font-medium text-white/72 hover:text-white transition-all duration-300 group">
                 {item}
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-phela-purple group-hover:w-full transition-all duration-300 ease-out" />
               </Link>
             ))}
           </div>
@@ -158,8 +159,8 @@ export default function CinematicHomePage() {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[88vh] flex items-center py-24 md:py-32 px-[4%]">
-        <div className="w-full max-w-[92%] mx-auto grid grid-cols-1 lg:grid-cols-[48%_52%] gap-14 items-center">
+      <section className="relative z-10 min-h-[88vh] flex items-center py-24 md:py-32 px-6">
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[48%_52%] gap-14 items-center">
           
           {/* Left Column */}
           <motion.div className="max-w-[650px]">

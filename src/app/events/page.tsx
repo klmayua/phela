@@ -83,8 +83,8 @@ export default function EventsPage() {
         <div className="absolute bottom-40 left-0 w-[400px] h-[400px] bg-vivid-cyan/8 rounded-full blur-[100px]" />
       </div>
 
-      {/* Floating Navbar */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl">
+{/* Floating Navbar */}
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-7xl">
         <div className="flex items-center justify-between h-[74px] px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl">
           <div className="flex items-center gap-4">
             <Link href="/" className="w-10 h-10 rounded-full bg-slate flex items-center justify-center text-white hover:text-phela-purple transition-colors">
@@ -93,27 +93,22 @@ export default function EventsPage() {
             <h1 className="font-display text-xl font-bold text-white hidden md:block">Events</h1>
           </div>
           
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-11 h-11 relative rounded-full overflow-hidden">
-              <Image 
-                src="/assets/phela_logo.png" 
-                alt="PHELA" 
-                fill 
-                className="object-contain bg-black"
-              />
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-11 h-11 relative rounded-full overflow-hidden shadow-glow-purple">
+              <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
-            <span className="font-display text-lg font-bold tracking-widest text-white hidden md:block">PHELA</span>
+            <span className="font-display text-xl font-medium tracking-widest text-white hidden md:block group-hover:opacity-80 transition-opacity">PHELA</span>
           </Link>
           
           <div className="flex items-center gap-3">
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white">
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/72 hover:text-white transition-colors">
               <Search size={18} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white relative">
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/72 hover:text-white transition-colors relative">
               <Bell size={18} />
               <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full" />
             </button>
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white">
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/72 hover:text-white transition-colors">
               <Wallet size={18} />
             </button>
             <button className="w-10 h-10 rounded-full phela-gradient flex items-center justify-center text-white">
