@@ -102,14 +102,14 @@ export default function CinematicHomePage() {
       </div>
 
       {/* Floating Navbar */}
-      <motion.nav style={{ opacity }} className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-7xl">
-        <div className="flex items-center justify-between h-[74px] px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl glow-purple-sm">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-16 h-16 relative rounded-full overflow-hidden shadow-glow-purple">
+      <motion.nav style={{ opacity }} className="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[96%] md:max-w-7xl mx-auto">
+        <div className="flex items-center justify-between h-14 md:h-[74px] px-4 md:px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl glow-purple-sm">
+          {/* Logo - Always visible */}
+          <Link href="/" className="flex items-center gap-2 md:gap-3 group">
+            <div className="w-10 h-10 md:w-16 md:h-16 relative rounded-full overflow-hidden shadow-glow-purple">
               <Image src="/assets/phela_logo.png" alt="PHELA" fill className="object-contain bg-black" />
             </div>
-            <span className="font-display text-2xl font-light tracking-[0.2em] text-white/80 hidden md:block group-hover:opacity-70 transition-opacity">
+            <span className="font-display text-lg md:text-2xl font-light tracking-[0.15em] md:tracking-[0.2em] text-white/80 group-hover:opacity-70 transition-opacity">
               PHELA
             </span>
           </Link>
@@ -124,8 +124,30 @@ export default function CinematicHomePage() {
             ))}
           </div>
 
-          {/* Right Actions - Desktop Only */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right Actions - Icons */}
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="hidden md:flex items-center gap-3">
+              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
+                <Search size={18} />
+              </button>
+              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors relative">
+                <Bell size={18} />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full" />
+              </button>
+              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
+                <Wallet size={18} />
+              </button>
+              <button className="w-10 h-10 rounded-full phela-gradient flex items-center justify-center text-white shadow-glow-purple">
+                <User size={18} />
+              </button>
+            </div>
+            {/* Mobile - Just User icon on far right */}
+            <button className="md:hidden w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white/70">
+              <User size={16} />
+            </button>
+          </div>
+        </div>
+      </motion.nav>
             <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
               <Search size={18} />
             </button>
@@ -144,18 +166,18 @@ export default function CinematicHomePage() {
       </motion.nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[88vh] flex items-center py-24 md:py-32 px-6">
-        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[48%_52%] gap-14 items-center">
+      <section className="relative z-10 min-h-[55vh] md:min-h-[80vh] flex items-center py-10 md:py-20 px-4 md:px-6">
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[48%_52%] gap-6 md:gap-10 items-center">
           
           {/* Left Column */}
           <motion.div className="max-w-[650px]">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-vivid-cyan/12 border border-vivid-cyan/35 mb-8">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-vivid-cyan/12 border border-vivid-cyan/35 mb-4 md:mb-6">
               <span className="w-2 h-2 rounded-full bg-vivid-cyan animate-pulse" />
-              <Sparkles size={14} className="text-vivid-cyan" />
-              <span className="text-vivid-cyan text-sm font-bold tracking-widest">LIVE FROM NAIROBI</span>
+              <Sparkles size={12} className="text-vivid-cyan" />
+              <span className="text-vivid-cyan text-xs md:text-sm font-bold tracking-widest">LIVE FROM NAIROBI</span>
             </motion.div>
 
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="font-display text-[72px] md:text-[8vw] lg:text-[118px] font-extrabold leading-[0.88] tracking-[-0.04em] text-white mb-6">
+            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="font-display text-[36px] md:text-[6vw] lg:text-[90px] font-bold leading-[0.9] tracking-[-0.02em] text-white mb-3 md:mb-5">
               NAIROBI'S
               <br />
               NIGHTLIFE
@@ -163,17 +185,17 @@ export default function CinematicHomePage() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-phela-purple to-vivid-cyan">PULSE</span>
             </motion.h1>
 
-            <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="font-sans text-2xl text-white/78 leading-[1.6] max-w-[620px] mb-10">
-              Discover concerts, rooftop sessions, exclusive lounges, premium tables, and unforgettable nights across Nairobi.
+            <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="font-sans text-sm md:text-lg text-white/75 leading-[1.4] max-w-[450px] mb-4 md:mb-6">
+              Discover concerts, rooftop sessions & unforgettable nights.
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-4">
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-semibold text-lg h-[60px] px-[34px] rounded-full phela-gradient text-white hover:shadow-glow-purple flex items-center justify-center gap-2">
-                <Ticket size={20} />
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-2">
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-semibold text-sm md:text-base h-10 md:h-12 px-5 md:px-7 rounded-full phela-gradient text-white hover:shadow-glow-purple flex items-center justify-center gap-1.5">
+                <Ticket size={14} />
                 Explore Events
               </motion.button>
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-medium text-lg h-[60px] px-[34px] rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 flex items-center justify-center gap-2">
-                <Play size={20} />
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-medium text-sm md:text-base h-10 md:h-12 px-5 md:px-7 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 flex items-center justify-center gap-1.5">
+                <Play size={14} />
                 Watch Reel
               </motion.button>
             </motion.div>
@@ -182,7 +204,7 @@ export default function CinematicHomePage() {
           {/* Right Column - Featured Event */}
           <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} className="hidden lg:block">
             <Link href={`/events/${featuredEvent.id}`}>
-              <div className="relative h-[640px] rounded-[28px] overflow-hidden group cursor-pointer">
+              <div className="relative h-[350px] md:h-[500px] lg:h-[640px] rounded-2xl md:rounded-[28px] overflow-hidden group cursor-pointer">
                 <Image src={featuredEvent.heroImage} alt={featuredEvent.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/15 to-black/15" />
                 <div className="absolute top-6 left-6">
@@ -217,20 +239,20 @@ export default function CinematicHomePage() {
       </section>
 
       {/* Mobile Featured Card */}
-      <section className="relative z-10 lg:hidden px-6 pb-8">
+      <section className="relative z-10 lg:hidden px-4 pb-24 md:pb-8">
         <Link href={`/events/${featuredEvent.id}`}>
-          <div className="relative h-[400px] rounded-2xl overflow-hidden">
+          <div className="relative h-[280px] rounded-2xl overflow-hidden">
             <Image src={featuredEvent.heroImage} alt={featuredEvent.title} fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/30 to-transparent" />
-            <div className="absolute top-4 left-4">
+            <div className="absolute top-3 left-3">
               <span className="px-2 py-1 rounded-full bg-vivid-cyan/20 text-vivid-cyan text-xs font-bold">FEATURED</span>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <h3 className="font-display text-2xl font-bold text-white mb-1">{featuredEvent.title}</h3>
-              <p className="text-vivid-cyan font-medium mb-3">{featuredEvent.date}</p>
+            <div className="absolute bottom-0 left-0 right-0 p-4">
+              <h3 className="font-display text-xl font-bold text-white mb-1">{featuredEvent.title}</h3>
+              <p className="text-vivid-cyan font-medium text-sm mb-2">{featuredEvent.date}</p>
               <div className="flex items-center justify-between">
                 <span className="text-phela-purple font-bold">{featuredEvent.price}</span>
-                <span className="px-4 py-2 rounded-full bg-phela-purple text-white text-sm font-semibold">Book Now</span>
+                <span className="px-3 py-1.5 rounded-full bg-phela-purple text-white text-sm font-semibold">Book Now</span>
               </div>
             </div>
           </div>
@@ -238,71 +260,83 @@ export default function CinematicHomePage() {
       </section>
 
       {/* Trending Now - Carousel */}
-      <section className="relative z-10 py-16 px-6">
+      <section className="relative z-10 py-12 md:py-16 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <h2 className="font-display text-2xl font-bold text-white">Trending Now</h2>
-              <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
-              <Flame className="text-danger" size={20} />
-            </div>
-            {/* Arrow Buttons */}
-            <div className="flex items-center gap-2">
-              <button onClick={scrollLeft} disabled={trendingIndex === 0} className="w-10 h-10 rounded-full bg-slate/80 border border-white/10 flex items-center justify-center text-white/72 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                <ChevronLeft size={20} />
-              </button>
-              <button onClick={scrollRight} disabled={trendingIndex >= trendingEvents.length - 1} className="w-10 h-10 rounded-full bg-slate/80 border border-white/10 flex items-center justify-center text-white/72 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-                <ChevronRight size={20} />
-              </button>
-            </div>
+          <div className="flex items-center gap-3 mb-6 md:mb-8">
+            <h2 className="font-display text-xl md:text-2xl font-bold text-white">Trending Now</h2>
+            <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
+            <Flame className="text-danger" size={18} />
           </div>
           
-          {/* Carousel - Show one at a time on mobile */}
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={trendingIndex}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.3 }}
-                className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0"
-              >
-                <Link href={`/events/${trendingEvents[trendingIndex].id}`} className="flex-shrink-0 w-[85vw] md:w-80 snap-start">
-                  <div className="group relative rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all overflow-hidden h-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-phela-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative z-10 p-5">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="text-5xl">{trendingEvents[trendingIndex].image}</div>
-                        {trendingEvents[trendingIndex].trending && (
-                          <span className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-danger/20 text-danger text-sm font-bold">
-                            <Flame size={12} /> HOT
+          {/* Carousel with Arrows on sides */}
+          <div className="relative flex items-center gap-2 md:gap-4">
+            {/* Left Arrow */}
+            <button onClick={scrollLeft} disabled={trendingIndex === 0} className="hidden md:flex w-10 h-10 shrink-0 rounded-full bg-slate/80 border border-white/10 items-center justify-center text-white/72 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors md:w-12 md:h-12">
+              <ChevronLeft size={20} />
+            </button>
+            
+            {/* Card */}
+            <div className="flex-1 overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={trendingIndex}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30 }}
+                  transition={{ duration: 0.25 }}
+                  className="w-full"
+                >
+                  <Link href={`/events/${trendingEvents[trendingIndex].id}`}>
+                    <div className="group relative rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-phela-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="relative z-10 p-4 md:p-5">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="text-4xl md:text-5xl">{trendingEvents[trendingIndex].image}</div>
+                          {trendingEvents[trendingIndex].trending && (
+                            <span className="flex items-center gap-1 px-2 py-1 rounded-full bg-danger/20 text-danger text-xs font-bold">
+                              <Flame size={10} /> HOT
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-display text-lg md:text-xl font-semibold text-white mb-1 group-hover:text-phela-purple">
+                          {trendingEvents[trendingIndex].title}
+                        </h3>
+                        <p className="text-text-secondary text-sm mb-1">{trendingEvents[trendingIndex].venue}</p>
+                        <p className="text-text-muted text-sm mb-3">{trendingEvents[trendingIndex].date}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-phela-purple font-bold">{trendingEvents[trendingIndex].price}</span>
+                          <span className="text-text-muted flex items-center gap-1 text-sm">
+                            <Users size={12} /> {trendingEvents[trendingIndex].attendees}
                           </span>
-                        )}
-                      </div>
-                      <h3 className="font-display text-xl font-semibold text-white mb-2 group-hover:text-phela-purple transition-colors">
-                        {trendingEvents[trendingIndex].title}
-                      </h3>
-                      <p className="text-text-secondary mb-1">{trendingEvents[trendingIndex].venue}</p>
-                      <p className="text-text-muted mb-4">{trendingEvents[trendingIndex].date}</p>
-                      <div className="flex items-center justify-between mt-auto">
-                        <span className="text-phela-purple font-bold text-lg">{trendingEvents[trendingIndex].price}</span>
-                        <span className="text-text-muted flex items-center gap-2 text-sm">
-                          <Users size={14} /> {trendingEvents[trendingIndex].attendees}
-                        </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-            
-            {/* Dots indicator */}
-            <div className="flex items-center justify-center gap-2 mt-6 md:hidden">
-              {trendingEvents.map((_, i) => (
-                <button key={i} onClick={() => setTrendingIndex(i)} className={`w-2 h-2 rounded-full transition-all ${i === trendingIndex ? "w-6 bg-phela-purple" : "bg-white/20"}`} />
-              ))}
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
             </div>
+            
+            {/* Right Arrow */}
+            <button onClick={scrollRight} disabled={trendingIndex >= trendingEvents.length - 1} className="hidden md:flex w-10 h-10 shrink-0 rounded-full bg-slate/80 border border-white/10 items-center justify-center text-white/72 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors md:w-12 md:h-12">
+              <ChevronRight size={20} />
+            </button>
+          </div>
+          
+          {/* Mobile arrows below */}
+          <div className="flex md:hidden items-center justify-between mt-4">
+            <button onClick={scrollLeft} disabled={trendingIndex === 0} className="flex-1 py-3 rounded-full bg-slate/50 border border-white/5 text-white/60 disabled:opacity-30">
+              ← Previous
+            </button>
+            <button onClick={scrollRight} disabled={trendingIndex >= trendingEvents.length - 1} className="flex-1 py-3 rounded-full bg-slate/50 border border-white/5 text-white/60 text-right disabled:opacity-30">
+              Next →
+            </button>
+          </div>
+          
+{/* Dots */}
+          <div className="flex items-center justify-center gap-2 mt-4">
+            {trendingEvents.map((_, i) => (
+              <button key={i} onClick={() => setTrendingIndex(i)} className={`h-2 rounded-full transition-all ${i === trendingIndex ? "w-6 bg-phela-purple" : "w-2 bg-white/20"}`} />
+            ))}
           </div>
         </div>
       </section>
