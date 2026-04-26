@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import { 
   Search, 
   Bell, 
@@ -12,305 +13,369 @@ import {
   Heart,
   Share2,
   ChevronRight,
-  Play,
   Clock,
   Users,
-  Sparkles
+  Flame,
+  Play,
+  Wallet,
+  Menu,
+  X,
+  Droplets,
+  Sparkles,
+  TrendingUp,
+  Star,
+  Crown
 } from "lucide-react";
 
-interface Event {
-  id: number;
-  title: string;
-  venue: string;
-  date: string;
-  time: string;
-  price: string;
-  image: string;
-  category: string;
-  attendees: number;
-  trending?: boolean;
-}
-
-const featuredEvent: Event = {
-  id: 1,
-  title: "Midnight Sessions Vol. 42",
-  venue: "Club Cubic, Nairobi",
-  date: "Saturday, April 26",
-  time: "10PM - 4AM",
-  price: "KES 2,500",
-  image: "🎵",
-  category: "Afrobeat",
-  attendees: 847,
-  trending: true,
-};
-
-const events: Event[] = [
-  { id: 2, title: "Afrobeat Sunday", venue: "The Garage", date: "April 27", time: "4PM - 11PM", price: "KES 1,500", image: "🔥", category: "Afrobeat", attendees: 234 },
-  { id: 3, title: "Rooftop Vibes", venue: "360° Terrace", date: "April 28", time: "6PM - 2AM", price: "KES 3,000", image: "🌙", category: "Hip Hop", attendees: 156 },
-  { id: 4, title: "Jazz Night Live", venue: "The Vault", date: "April 29", time: "7PM - 12AM", price: "KES 2,000", image: "🎷", category: "Jazz", attendees: 89 },
-  { id: 5, title: "Amapiano takeover", venue: "Sky Lounge", date: "April 30", time: "9PM - 3AM", price: "KES 2,800", image: "🔥", category: "Amapiano", attendees: 412 },
-  { id: 6, title: "Electronic Dreams", venue: "Flux club", date: "May 1", time: "10PM - 4AM", price: "KES 2,200", image: "⚡", category: "Electronic", attendees: 298 },
-  { id: 7, title: "RNB Slow Jams", venue: "Blue Note", date: "May 2", time: "8PM - 2AM", price: "KES 1,800", image: "💜", category: "RNB", attendees: 167 },
-  { id: 8, title: "Hip Hop Cypher", venue: "Urban Edge", date: "May 3", time: "9PM - 3AM", price: "KES 1,200", image: "🎤", category: "Hip Hop", attendees: 445 },
+const heroImages = [
+  { emoji: "🎵", gradient: "from-purple-600/40" },
+  { emoji: "🔥", gradient: "from-orange-600/30" },
+  { emoji: "🎤", gradient: "from-pink-600/30" },
+  { emoji: "⚡", gradient: "from-cyan-600/30" },
 ];
 
-const categories = [
-  { id: 1, name: "Afrobeat", icon: "🎶", count: 234 },
-  { id: 2, name: "Hip Hop", icon: "🎤", count: 189 },
-  { id: 3, name: "RNB", icon: "💜", count: 156 },
-  { id: 4, name: "Amapiano", icon: "🔥", count: 312 },
-  { id: 5, name: "Jazz", icon: "🎷", count: 98 },
-  { id: 6, name: "Electronic", icon: "⚡", count: 145 },
+const trendingEvents = [
+  { id: 1, title: "Midnight Sessions Vol. 42", venue: "Club Cubic", date: "Tonight", price: "KES 2,500", image: "🎵", attendees: 847, trending: true },
+  { id: 2, title: "Afrobeat Sunday", venue: "The Garage", date: "Tomorrow", price: "KES 1,500", image: "🔥", attendees: 234 },
+  { id: 3, title: "Rooftop Vibes", venue: "360° Terrace", date: "Sat", price: "KES 3,000", image: "🌙", attendees: 156 },
+  { id: 4, title: "Amapiano Takeover", venue: "Sky Lounge", date: "Sat", price: "KES 2,800", image: "🔥", attendees: 412 },
+  { id: 5, title: "Jazz Night Live", venue: "The Vault", date: "Sun", price: "KES 2,000", image: "🎷", attendees: 89 },
+  { id: 6, title: "Electronic Dreams", venue: "Flux Club", date: "Sun", price: "KES 2,200", image: "⚡", attendees: 298 },
 ];
 
 const artists = [
-  { id: 1, name: "Sauti Sol", image: "👤", followers: "1.2M" },
-  { id: 2, name: "Diamond", image: "👤", followers: "890K" },
-  { id: 3, name: "Nadia", image: "👤", followers: "567K" },
-  { id: 4, name: "Fathermoh", image: "👤", followers: "423K" },
-  { id: 5, name: "Zuchu", image: "👤", followers: "2.1M" },
+  { id: 1, name: "Sauti Sol", plays: "1.2M", icon: "🎤", verified: true },
+  { id: 2, name: "Diamond", plays: "890K", icon: "🔥", verified: true },
+  { id: 3, name: "Nadia", plays: "567K", icon: "💜", verified: true },
+  { id: 4, name: "Fathermoh", plays: "423K", icon: "🎤", verified: false },
+  { id: 5, name: "Zuchu", plays: "2.1M", icon: "⚡", verified: true },
 ];
 
-export default function HomePage() {
+const venues = [
+  { id: 1, name: "Club Cubic", status: "live", capacity: 500, type: "Club" },
+  { id: 2, name: "The Garage", status: "open", capacity: 300, type: "Live House" },
+  { id: 3, name: "Sky Lounge", status: "vip", capacity: 150, type: "Rooftop" },
+  { id: 4, name: "The Vault", status: "open", capacity: 200, type: "Jazz Bar" },
+];
+
+const merch = [
+  { id: 1, name: "Midnight Sessions Tee", price: "KES 3,500", icon: "👕", available: true },
+  { id: 2, name: "Phela Hoodie", price: "KES 6,500", icon: "🧥", available: true },
+  { id: 3, name: "Capsule Cap", price: "KES 2,000", icon: "🧢", available: false },
+  { id: 4, name: "Energy Badge", price: "KES 800", icon: "🏷️", available: true },
+];
+
+export default function CinematicHomePage() {
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 150]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -100]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  
+  const smoothY = useSpring(y1, { stiffness: 100, damping: 30 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <main className="min-h-screen bg-midnight pb-20 md:pb-0">
-      {/* Ambient Glow Effects */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-phela-purple/15 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-40 right-0 w-[400px] h-[400px] bg-vivid-cyan/10 rounded-full blur-[100px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-electric-indigo/5 rounded-full blur-[150px]" />
-      </div>
-
-      {/* Header */}
-      <header className="relative z-50 sticky top-0 glass">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="font-display text-2xl font-bold text-white">
-              PHELA
-            </Link>
-            
-            <div className="hidden md:flex items-center gap-6">
-              <Link href="/events" className="text-text-secondary hover:text-white transition-colors">Events</Link>
-              <Link href="/artists" className="text-text-secondary hover:text-white transition-colors">Artists</Link>
-              <Link href="/venues" className="text-text-secondary hover:text-white transition-colors">Venues</Link>
-              <Link href="/discover" className="text-text-secondary hover:text-white transition-colors">Discover</Link>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button className="w-10 h-10 rounded-full bg-slate flex items-center justify-center text-text-secondary hover:text-white transition-colors">
-                <Search size={18} />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-slate flex items-center justify-center text-text-secondary hover:text-white transition-colors relative">
-                <Bell size={18} />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-phela-purple flex items-center justify-center text-white hover:shadow-glow-purple transition-shadow">
-                <User size={18} />
-              </button>
+    <main ref={containerRef} className="min-h-screen bg-midnight overflow-x-hidden">
+      {/* Dynamic Background */}
+      <div className="fixed inset-0 z-0">
+        {heroImages.map((item, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-gradient-to-br ${item.gradient} to-midnight transition-opacity duration-1500 ${
+              index === heroIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div className="absolute inset-0 flex items-center justify-center opacity-20">
+              <span className="text-[300px]">{item.emoji}</span>
             </div>
           </div>
-        </div>
-      </header>
+        ))}
+        
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-midnight/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-radial-gradient" style={{ background: 'radial-gradient(ellipse at center, transparent 0%, rgba(5,5,7,0.4) 100%)' }} />
+      </div>
 
-      {/* Hero Section */}
-      <section className="relative z-10 pt-8 pb-12 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
+      {/* Floating Particles */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-phela-purple/30"
+            initial={{
+              x: `${(i * 5) % 100}%`,
+              y: 0,
+            }}
+            animate={{
+              y: -1000,
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "linear",
+              delay: i * 0.5,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Floating Navbar */}
+      <motion.nav
+        style={{ opacity }}
+        className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl"
+      >
+        <div className="flex items-center justify-between h-[74px] px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl glow-purple-sm">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-full phela-gradient flex items-center justify-center shadow-glow-purple">
+              <span className="font-display text-xl font-bold text-white">P</span>
+            </div>
+            <span className="font-display text-lg font-bold tracking-widest text-white hidden md:block">PHELA</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                className="text-sm font-medium text-text-secondary hover:text-white transition-colors"
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-3">
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white transition-colors">
+              <Search size={18} />
+            </button>
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white transition-colors relative">
+              <Bell size={18} />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full" />
+            </button>
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white transition-colors">
+              <Wallet size={18} />
+            </button>
+            <button className="w-10 h-10 rounded-full phela-gradient flex items-center justify-center text-white shadow-glow-purple">
+              <User size={18} />
+            </button>
+            
+            {/* Mobile Menu */}
+            <button 
+              className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-0 left-0 right-0 z-40 pt-24 px-6 md:hidden"
+          >
+            <div className="bg-slate/95 backdrop-blur-xl rounded-3xl border border-white/8 p-6">
+              {["Discover", "Events", "Artists", "Venues", "Nightlife", "Merch", "Membership"].map((item) => (
+                <Link
+                  key={item}
+                  href={`/${item.toLowerCase()}`}
+                  className="block py-3 text-lg font-medium text-white border-b border-white/5"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              ))}
+              <button className="w-full mt-4 py-3 rounded-xl phela-gradient text-white font-semibold">
+                Get Access
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hero Content - Bottom Left */}
+      <motion.div 
+        style={{ y: smoothY }}
+        className="relative z-10 flex flex-col justify-end min-h-screen pb-24 md:pb-16 px-6 md:px-[7%]"
+      >
+        <div className="max-w-2xl">
+          {/* Glowing Pretitle */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-vivid-cyan/15 border border-vivid-cyan/30 mb-6"
+          >
+            <span className="w-2 h-2 rounded-full bg-vivid-cyan animate-pulse" />
+            <Sparkles size={14} className="text-vivid-cyan" />
+            <span className="text-vivid-cyan text-xs font-bold tracking-widest">LIVE FROM NAIROBI</span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="font-display text-6xl md:text-8xl lg:text-[92px] font-black leading-[0.9] text-white mb-6"
+          >
+            AFRICA'S
+            <br />
+            <span className="text-transparent bg-clip-text phela-gradient">ENTERTAINMENT</span>
+            <br />
+            CAPITAL
+          </motion.h1>
+
+          {/* Body */}
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-lg md:text-xl text-text-secondary max-w-lg mb-8"
+          >
+            Premium events. Exclusive access. Culture, nightlife and unforgettable experiences— all in one pulse.
+          </motion.p>
+
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-4"
           >
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate/80 border border-ash text-vivid-cyan text-sm mb-6"
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="phela-gradient text-white font-display font-semibold h-14 px-8 rounded-full hover:shadow-glow-purple flex items-center justify-center gap-2"
             >
-              <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-              <Sparkles size={14} />
-              <span className="font-medium">LIVE IN NAIROBI</span>
-            </motion.div>
-            
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1]">
-              ENTER THE PULSE
-              <br />
-              <span className="text-transparent bg-clip-text phela-gradient">OF AFRICA</span>
-            </h1>
-            
-            <p className="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto mb-8">
-              Premium events, exclusive access, and the hottest nightlife experiences 
-              across the continent.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="phela-gradient text-white font-display font-semibold h-14 px-8 rounded-2xl hover:shadow-glow-purple transition-shadow flex items-center justify-center gap-2"
-              >
-                <Ticket size={18} />
-                Get Started
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-transparent border border-ash text-white font-display font-semibold h-14 px-8 rounded-2xl hover:border-vivid-cyan hover:shadow-glow-cyan transition-all flex items-center justify-center gap-2"
-              >
-                <Play size={18} />
-                Watch Demo
-              </motion.button>
-            </div>
+              <Ticket size={18} />
+              Explore Events
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-white/5 border border-white/10 text-white font-display font-semibold h-14 px-8 rounded-full hover:bg-white/10 flex items-center justify-center gap-2"
+            >
+              <Play size={18} />
+              Watch Reel
+            </motion.button>
           </motion.div>
+        </div>
+      </motion.div>
 
-          {/* Featured Event Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <Link href={`/events/${featuredEvent.id}`}>
-              <div className="group relative overflow-hidden rounded-3xl bg-slate border border-ash hover:border-phela-purple hover:shadow-glow-purple transition-all cursor-pointer">
-                {/* Background gradient */}
-                <div className="absolute inset-0 dark-luxe opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent" />
-                
-                {/* Decorative elements */}
-                <div className="absolute -right-20 -top-20 w-64 h-64 bg-phela-purple/30 rounded-full blur-[80px] group-hover:bg-phela-purple/50 transition-all" />
-                
-                <div className="relative z-10 p-6 md:p-8">
-                  <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-                    <div>
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className="label-caps text-vivid-cyan">FEATURED EVENT</span>
-                        <span className="text-text-muted">•</span>
-                        <span className="text-text-secondary text-sm">{featuredEvent.date}</span>
-                      </div>
-                      
-                      <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-phela-purple transition-colors">
-                        {featuredEvent.title}
-                      </h2>
-                      
-                      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-text-secondary">
-                        <div className="flex items-center gap-2">
-                          <MapPin size={16} className="text-phela-purple" />
-                          {featuredEvent.venue}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Clock size={16} className="text-phela-purple" />
-                          {featuredEvent.time}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Users size={16} className="text-phela-purple" />
-                          {featuredEvent.attendees} attending
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="text-text-muted text-sm mb-1">From</p>
-                        <p className="font-display text-2xl font-bold text-white">{featuredEvent.price}</p>
-                      </div>
-                      <div className="phela-gradient w-14 h-14 rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform">
-                        <ChevronRight size={24} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      {/* Floating Event Card - Bottom Right */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.6 }}
+        className="hidden lg:block fixed right-8 bottom-24 z-20 w-[420px]"
+      >
+        <div className="bg-slate/60 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
+          {/* Card Header */}
+          <div className="relative h-32 bg-gradient-to-br from-phela-purple/30 to-midnight">
+            <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-30">
+              🎵
+            </div>
+            <div className="absolute top-4 left-4">
+              <span className="px-3 py-1 rounded-full bg-vivid-cyan/20 text-vivid-cyan text-xs font-bold">FEATURED</span>
+            </div>
+          </div>
+          
+          {/* Card Body */}
+          <div className="p-5">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h3 className="font-display text-xl font-bold text-white mb-1">Midnight Sessions Vol. 42</h3>
+                <p className="text-text-secondary text-sm">Club Cubic Nairobi</p>
               </div>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="relative z-10 py-12 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="font-display text-2xl font-bold text-white">Browse by Vibe</h2>
-            <Link href="/events" className="text-phela-purple text-sm font-medium hover:text-white transition-colors flex items-center gap-1">
-              See all <ChevronRight size={16} />
-            </Link>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.map((cat, index) => (
-              <motion.div
-                key={cat.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-              >
-                <Link href={`/events?category=${cat.name}`}>
-                  <div className="group relative p-6 rounded-2xl bg-slate border border-ash hover:border-phela-purple hover:shadow-glow-purple transition-all cursor-pointer text-center">
-                    <span className="text-4xl block mb-3">{cat.icon}</span>
-                    <h3 className="font-display font-semibold text-white mb-1">{cat.name}</h3>
-                    <p className="text-text-muted text-sm">{cat.count} events</p>
-                    
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-phela-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="flex -space-x-2">
+                {[1,2,3].map((i) => (
+                  <div key={i} className="w-8 h-8 rounded-full bg-slate border-2 border-slate flex items-center justify-center text-sm">
+                    👤
                   </div>
-                </Link>
-              </motion.div>
-            ))}
+                ))}
+                <span className="w-8 h-8 rounded-full bg-phela-purple flex items-center justify-center text-xs text-white">+844</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4 text-text-muted text-sm mb-4">
+              <span className="flex items-center gap-1"><Clock size={14} /> 10PM - 4AM</span>
+              <span className="flex items-center gap-1"><Users size={14} /> 847 going</span>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-text-muted text-xs">From</p>
+                <p className="font-display text-xl font-bold text-white">KES 2,500</p>
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="phela-gradient px-6 py-3 rounded-full text-white font-semibold hover:shadow-glow-purple"
+              >
+                Book Now
+              </motion.button>
+            </div>
           </div>
         </div>
-      </section>
+      </motion.div>
 
-      {/* Trending Events */}
-      <section className="relative z-10 py-12 px-4 md:px-6">
+      {/* Trending Now - Horizontal Scroll */}
+      <section className="relative z-10 py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <h2 className="font-display text-2xl font-bold text-white">Trending Now</h2>
-              <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
-            </div>
-            <Link href="/events?sort=trending" className="text-phela-purple text-sm font-medium hover:text-white transition-colors flex items-center gap-1">
-              See all <ChevronRight size={16} />
-            </Link>
+          <div className="flex items-center gap-3 mb-8">
+            <h2 className="font-display text-2xl font-bold text-white">Trending Now</h2>
+            <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
+            <Flame className="text-danger" size={20} />
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {events.slice(0, 4).map((event, index) => (
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 md:mx-0 md:px-0">
+            {trendingEvents.map((event, index) => (
               <motion.div
                 key={event.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 * index }}
+                className="flex-shrink-0 w-72"
               >
                 <Link href={`/events/${event.id}`}>
-                  <div className="group relative rounded-2xl bg-slate border border-ash hover:border-phela-purple hover:shadow-glow-purple transition-all cursor-pointer overflow-hidden">
-                    <div className="absolute inset-0 dark-luxe" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent" />
+                  <div className="group relative rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-phela-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     <div className="relative z-10 p-5">
                       <div className="flex items-start justify-between mb-4">
-                        <div className="text-3xl">{event.image}</div>
-                        <div className="flex gap-2">
-                          <button className="w-8 h-8 rounded-full bg-midnight/50 flex items-center justify-center text-text-muted hover:text-danger transition-colors">
-                            <Heart size={14} />
-                          </button>
-                          <button className="w-8 h-8 rounded-full bg-midnight/50 flex items-center justify-center text-text-muted hover:text-white transition-colors">
-                            <Share2 size={14} />
-                          </button>
-                        </div>
+                        <div className="text-4xl">{event.image}</div>
+                        {event.trending && (
+                          <span className="flex items-center gap-1 px-2 py-1 rounded-full bg-danger/20 text-danger text-xs font-semibold">
+                            <Flame size={10} /> HOT
+                          </span>
+                        )}
                       </div>
-                      
-                      {event.trending && (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-danger/20 text-danger text-xs font-medium mb-3">
-                          <Sparkles size={10} /> TRENDING
-                        </span>
-                      )}
                       
                       <h3 className="font-display font-semibold text-white mb-1 group-hover:text-phela-purple transition-colors">
                         {event.title}
                       </h3>
                       <p className="text-text-secondary text-sm mb-1">{event.venue}</p>
-                      
-                      <div className="flex items-center gap-2 text-text-muted text-sm mb-3">
-                        <Calendar size={12} />
-                        {event.date}
-                      </div>
+                      <p className="text-text-muted text-sm mb-3">{event.date}</p>
                       
                       <div className="flex items-center justify-between">
                         <span className="text-phela-purple font-semibold">{event.price}</span>
@@ -327,38 +392,45 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* More Events */}
-      <section className="relative z-10 py-12 px-4 md:px-6">
+      {/* Live Venues */}
+      <section className="relative z-10 py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="font-display text-2xl font-bold text-white">More Events</h2>
-            <Link href="/events" className="text-phela-purple text-sm font-medium hover:text-white transition-colors flex items-center gap-1">
+            <h2 className="font-display text-2xl font-bold text-white">Live Venues</h2>
+            <Link href="/venues" className="text-phela-purple text-sm font-medium hover:text-white transition-colors">
               See all <ChevronRight size={16} />
             </Link>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {events.slice(4).map((event, index) => (
+            {venues.map((venue, index) => (
               <motion.div
-                key={event.id}
-                initial={{ opacity: 0, y: 30 }}
+                key={venue.id}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
+                transition={{ delay: 0.1 * index }}
               >
-                <Link href={`/events/${event.id}`}>
-                  <div className="group rounded-2xl bg-slate border border-ash hover:border-phela-purple hover:shadow-glow-purple transition-all cursor-pointer p-5">
-                    <div className="text-3xl mb-4">{event.image}</div>
-                    <h3 className="font-display font-semibold text-white mb-1 group-hover:text-phela-purple transition-colors">
-                      {event.title}
-                    </h3>
-                    <p className="text-text-secondary text-sm mb-1">{event.venue}</p>
-                    <p className="text-text-muted text-sm mb-3">{event.date}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-phela-purple font-semibold">{event.price}</span>
-                      <span className="text-text-muted text-sm flex items-center gap-1">
-                        <Users size={12} /> {event.attendees}
+                <Link href={`/venues/${venue.id}`}>
+                  <div className="group p-5 rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="w-10 h-10 rounded-full bg-slate flex items-center justify-center">
+                        <Droplets className={
+                          venue.status === "live" ? "text-danger" : 
+                          venue.status === "vip" ? "text-warning" : "text-success"
+                        } size={18} />
+                      </div>
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        venue.status === "live" ? "bg-danger/20 text-danger" :
+                        venue.status === "vip" ? "bg-warning/20 text-warning" :
+                        "bg-success/20 text-success"
+                      }`}>
+                        {venue.status === "live" ? "LIVE" : venue.status === "vip" ? "VIP" : "OPEN"}
                       </span>
                     </div>
+                    <h3 className="font-display font-semibold text-white mb-1 group-hover:text-phela-purple transition-colors">
+                      {venue.name}
+                    </h3>
+                    <p className="text-text-muted text-sm">{venue.type} • {venue.capacity} capacity</p>
                   </div>
                 </Link>
               </motion.div>
@@ -368,31 +440,36 @@ export default function HomePage() {
       </section>
 
       {/* Top Artists */}
-      <section className="relative z-10 py-12 px-4 md:px-6">
+      <section className="relative z-10 py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="font-display text-2xl font-bold text-white">Top Artists</h2>
-            <Link href="/artists" className="text-phela-purple text-sm font-medium hover:text-white transition-colors flex items-center gap-1">
+            <div className="flex items-center gap-3">
+              <h2 className="font-display text-2xl font-bold text-white">Artist Spotlight</h2>
+              <Star className="text-warning" size={20} />
+            </div>
+            <Link href="/artists" className="text-phela-purple text-sm font-medium hover:text-white transition-colors">
               See all <ChevronRight size={16} />
             </Link>
           </div>
           
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {artists.map((artist, index) => (
               <motion.div
                 key={artist.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="flex-shrink-0"
+                transition={{ delay: 0.1 * index }}
               >
                 <Link href={`/artists/${artist.id}`}>
-                  <div className="group text-center cursor-pointer">
-                    <div className="w-20 h-20 mx-auto rounded-full bg-slate border-2 border-ash group-hover:border-phela-purple group-hover:shadow-glow-purple transition-all flex items-center justify-center text-3xl mb-3">
-                      {artist.image}
+                  <div className="group text-center p-5 rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 transition-all">
+                    <div className="w-20 h-20 mx-auto rounded-full bg-slate flex items-center justify-center text-4xl mb-3">
+                      {artist.icon}
                     </div>
-                    <h3 className="font-display font-semibold text-white text-sm mb-1">{artist.name}</h3>
-                    <p className="text-text-muted text-xs">{artist.followers} followers</p>
+                    <div className="flex items-center justify-center gap-1 mb-1">
+                      <h3 className="font-display font-semibold text-white">{artist.name}</h3>
+                      {artist.verified && <Crown className="text-warning" size={14} />}
+                    </div>
+                    <p className="text-text-muted text-sm">{artist.plays} plays</p>
                   </div>
                 </Link>
               </motion.div>
@@ -401,13 +478,50 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Merch Drop */}
+      <section className="relative z-10 py-16 px-6 pb-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <h2 className="font-display text-2xl font-bold text-white">Merch Drop</h2>
+              <span className="px-2 py-1 rounded-full bg-phela-purple/20 text-phela-purple text-xs font-bold">NEW</span>
+            </div>
+            <Link href="/merch" className="text-phela-purple text-sm font-medium hover:text-white transition-colors">
+              Shop all <ChevronRight size={16} />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {merch.map((item, index) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index }}
+              >
+                <div className={`p-5 rounded-2xl bg-slate/50 border border-white/5 ${item.available ? 'hover:border-phela-purple/50' : 'opacity-50'} transition-all`}>
+                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <h3 className="font-display font-semibold text-white mb-1">{item.name}</h3>
+                  <div className="flex items-center justify-between">
+                    <span className="text-phela-purple font-semibold">{item.price}</span>
+                    {!item.available && (
+                      <span className="text-text-muted text-xs">Sold out</span>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Bottom Navigation - Mobile */}
-      <nav className="fixed bottom-0 left-0 right-0 glass md:hidden z-50">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 glass md:hidden">
         <div className="flex items-center justify-around py-3">
           {[
-            { icon: Calendar, label: "Home", href: "/", active: true },
-            { icon: Ticket, label: "Events", href: "/events", active: false },
-            { icon: Search, label: "Explore", href: "/discover", active: false },
+            { icon: Sparkles, label: "Home", href: "/", active: true },
+            { icon: Calendar, label: "Events", href: "/events", active: false },
+            { icon: Search, label: "Discover", href: "/discover", active: false },
             { icon: Heart, label: "Saved", href: "/saved", active: false },
             { icon: User, label: "Profile", href: "/profile", active: false },
           ].map((item) => (

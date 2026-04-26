@@ -18,8 +18,10 @@ import {
   Users,
   Filter,
   SlidersHorizontal,
+  Flame,
   X,
-  Flame
+  Wallet,
+  Droplets
 } from "lucide-react";
 
 interface Event {
@@ -52,14 +54,10 @@ const allEvents: Event[] = [
 ];
 
 const categories = ["All", "Afrobeat", "Hip Hop", "RNB", "Amapiano", "Jazz", "Electronic", "Live Music", "Reggae"];
-const priceRanges = ["All", "Under KES 1,500", "KES 1,500 - 3,000", "KES 3,000 - 5,000", "Over KES 5,000"];
-const sortOptions = ["Recommended", "Trending", "Soonest", "Price: Low to High", "Price: High to Low", "Most Popular"];
 
 export default function EventsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedPrice, setSelectedPrice] = useState("All");
-  const [selectedSort, setSelectedSort] = useState("Recommended");
   const [showFilters, setShowFilters] = useState(false);
   const [savedEvents, setSavedEvents] = useState<number[]>([]);
 
@@ -77,42 +75,50 @@ export default function EventsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-midnight pb-20 md:pb-0">
-      {/* Ambient Glow */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-phela-purple/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-40 left-0 w-[300px] h-[300px] bg-vivid-cyan/8 rounded-full blur-[80px]" />
+    <main className="min-h-screen bg-midnight pb-24 md:pb-0">
+      {/* Dynamic Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-phela-purple/10 rounded-full blur-[150px]" />
+        <div className="absolute bottom-40 left-0 w-[400px] h-[400px] bg-vivid-cyan/8 rounded-full blur-[100px]" />
       </div>
 
-      {/* Header */}
-      <header className="relative z-50 sticky top-0 glass">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link href="/" className="w-10 h-10 rounded-full bg-slate flex items-center justify-center text-white hover:text-phela-purple transition-colors">
-                <ChevronLeft size={20} />
-              </Link>
-              <h1 className="font-display text-xl font-bold text-white hidden md:block">Events</h1>
-            </div>
-            
-            <Link href="/" className="font-display text-2xl font-bold text-white">
-              PHELA
+      {/* Floating Navbar */}
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl">
+        <div className="flex items-center justify-between h-[74px] px-6 rounded-full bg-slate/45 backdrop-blur-xl border border-white/8 shadow-2xl">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="w-10 h-10 rounded-full bg-slate flex items-center justify-center text-white hover:text-phela-purple transition-colors">
+              <ChevronLeft size={20} />
             </Link>
-            
-            <div className="flex items-center gap-3">
-              <button className="w-10 h-10 rounded-full bg-slate flex items-center justify-center text-text-secondary hover:text-white transition-colors">
-                <Bell size={18} />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-phela-purple flex items-center justify-center text-white">
-                <User size={18} />
-              </button>
+            <h1 className="font-display text-xl font-bold text-white hidden md:block">Events</h1>
+          </div>
+          
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-full phela-gradient flex items-center justify-center">
+              <span className="font-display text-lg font-bold text-white">P</span>
             </div>
+            <span className="font-display text-lg font-bold tracking-widest text-white hidden md:block">PHELA</span>
+          </Link>
+          
+          <div className="flex items-center gap-3">
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white">
+              <Search size={18} />
+            </button>
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white relative">
+              <Bell size={18} />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full" />
+            </button>
+            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-text-secondary hover:text-white">
+              <Wallet size={18} />
+            </button>
+            <button className="w-10 h-10 rounded-full phela-gradient flex items-center justify-center text-white">
+              <User size={18} />
+            </button>
           </div>
         </div>
-      </header>
+      </nav>
 
       {/* Search & Filters */}
-      <section className="relative z-10 py-6 px-4 md:px-6">
+      <section className="relative z-10 pt-32 pb-6 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Search Bar */}
           <div className="relative mb-6">
@@ -122,17 +128,17 @@ export default function EventsPage() {
               placeholder="Search events, venues, artists..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-14 pl-12 pr-4 rounded-2xl bg-slate border border-ash text-white placeholder:text-text-muted focus:outline-none focus:border-phela-purple focus:shadow-glow-purple transition-all"
+              className="w-full h-14 pl-12 pr-4 rounded-2xl bg-slate/50 border border-white/5 text-white placeholder:text-text-muted focus:outline-none focus:border-phela-purple focus:shadow-glow-purple transition-all"
             />
           </div>
 
-          {/* Filter Tabs - Horizontal Scroll */}
-          <div className="flex items-center gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
+          {/* Category Pills */}
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:px-0">
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowFilters(!showFilters)}
               className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
-                showFilters ? "bg-phela-purple border-phela-purple text-white" : "bg-slate border-ash text-text-secondary hover:border-phela-purple"
+                showFilters ? "bg-phela-purple border-phela-purple text-white" : "bg-slate/50 border-white/5 text-text-secondary hover:border-phela-purple"
               }`}
             >
               <SlidersHorizontal size={16} />
@@ -147,96 +153,27 @@ export default function EventsPage() {
                 className={`flex-shrink-0 px-4 py-2 rounded-full border transition-all ${
                   selectedCategory === cat 
                     ? "bg-phela-purple border-phela-purple text-white" 
-                    : "bg-slate border-ash text-text-secondary hover:border-phela-purple hover:text-white"
+                    : "bg-slate/50 border-white/5 text-text-secondary hover:border-phela-purple hover:text-white"
                 }`}
               >
                 <span className="text-sm font-medium whitespace-nowrap">{cat}</span>
               </motion.button>
             ))}
           </div>
-
-          {/* Expanded Filters Panel */}
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 mt-4 border-t border-ash">
-                  {/* Price Range */}
-                  <div>
-                    <label className="block text-text-secondary text-sm mb-2">Price Range</label>
-                    <div className="flex flex-wrap gap-2">
-                      {priceRanges.map((range) => (
-                        <button
-                          key={range}
-                          onClick={() => setSelectedPrice(range)}
-                          className={`px-3 py-2 rounded-lg text-sm transition-all ${
-                            selectedPrice === range
-                              ? "bg-phela-purple text-white"
-                              : "bg-slate text-text-secondary hover:text-white"
-                          }`}
-                        >
-                          {range}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Sort */}
-                  <div>
-                    <label className="block text-text-secondary text-sm mb-2">Sort By</label>
-                    <div className="flex flex-wrap gap-2">
-                      {sortOptions.map((sort) => (
-                        <button
-                          key={sort}
-                          onClick={() => setSelectedSort(sort)}
-                          className={`px-3 py-2 rounded-lg text-sm transition-all ${
-                            selectedSort === sort
-                              ? "bg-phela-purple text-white"
-                              : "bg-slate text-text-secondary hover:text-white"
-                          }`}
-                        >
-                          {sort}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Date */}
-                  <div>
-                    <label className="block text-text-secondary text-sm mb-2">Date</label>
-                    <div className="flex gap-2">
-                      {["Today", "Tomorrow", "This Week", "This Month"].map((date) => (
-                        <button
-                          key={date}
-                          className="px-3 py-2 rounded-lg text-sm bg-slate text-text-secondary hover:text-white transition-all"
-                        >
-                          {date}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </section>
 
       {/* Results Count */}
-      <section className="relative z-10 px-4 md:px-6 pb-4">
+      <section className="relative z-10 px-6 pb-4">
         <div className="max-w-7xl mx-auto">
           <p className="text-text-secondary">
-            <span className="text-white font-semibold">{filteredEvents.length}</span> events found
+            <span className="text-white font-semibold">{filteredEvents.length}</span> events
           </p>
         </div>
       </section>
 
       {/* Events Grid */}
-      <section className="relative z-10 py-4 px-4 md:px-6">
+      <section className="relative z-10 py-6 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredEvents.map((event, index) => (
@@ -247,8 +184,8 @@ export default function EventsPage() {
                 transition={{ duration: 0.3, delay: index * 0.03 }}
               >
                 <Link href={`/events/${event.id}`}>
-                  <div className="group relative rounded-2xl bg-slate border border-ash hover:border-phela-purple hover:shadow-glow-purple transition-all cursor-pointer overflow-hidden h-full">
-                    {/* Featured/Trending Badge */}
+                  <div className="group relative rounded-2xl bg-slate/50 border border-white/5 hover:border-phela-purple/50 hover:shadow-glow-purple transition-all cursor-pointer overflow-hidden h-full">
+                    {/* Badge */}
                     <div className="absolute top-3 left-3 z-10 flex gap-2">
                       {event.featured && (
                         <span className="px-2 py-1 rounded-full bg-phela-purple/20 text-phela-purple text-xs font-semibold">
@@ -262,12 +199,9 @@ export default function EventsPage() {
                       )}
                     </div>
                     
-                    <div className="absolute inset-0 dark-luxe" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent" />
-                    
                     <div className="relative z-10 p-5">
                       <div className="flex items-start justify-between mb-4">
-                        <div className="text-3xl">{event.image}</div>
+                        <div className="text-4xl">{event.image}</div>
                         <div className="flex gap-2">
                           <button 
                             onClick={(e) => { e.preventDefault(); toggleSave(event.id); }}
@@ -309,15 +243,14 @@ export default function EventsPage() {
             ))}
           </div>
 
-          {/* Empty State */}
           {filteredEvents.length === 0 && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="font-display text-xl font-bold text-white mb-2">No events found</h3>
-              <p className="text-text-secondary mb-6">Try adjusting your filters or search query</p>
+              <p className="text-text-secondary mb-6">Try adjusting your search or filters</p>
               <button 
-                onClick={() => { setSearchQuery(""); setSelectedCategory("All"); setSelectedPrice("All"); }}
-                className="px-6 py-3 rounded-xl bg-phela-purple text-white font-semibold hover:shadow-glow-purple transition-all"
+                onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
+                className="px-6 py-3 rounded-xl phela-gradient text-white font-semibold"
               >
                 Clear Filters
               </button>
@@ -326,13 +259,13 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 glass md:hidden z-50">
+      {/* Mobile Bottom Nav */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 glass md:hidden">
         <div className="flex items-center justify-around py-3">
           {[
-            { icon: Calendar, label: "Home", href: "/", active: false },
-            { icon: Ticket, label: "Events", href: "/events", active: true },
-            { icon: Search, label: "Explore", href: "/discover", active: false },
+            { icon: ChevronLeft, label: "Back", href: "/", active: false },
+            { icon: Calendar, label: "Events", href: "/events", active: true },
+            { icon: Search, label: "Discover", href: "/discover", active: false },
             { icon: Heart, label: "Saved", href: "/saved", active: false },
             { icon: User, label: "Profile", href: "/profile", active: false },
           ].map((item) => (

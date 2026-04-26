@@ -91,6 +91,10 @@ body {
   box-shadow: var(--glow-purple);
 }
 
+.glow-purple-sm {
+  box-shadow: 0 0 30px rgba(111,70,255,.18);
+}
+
 .glow-cyan {
   box-shadow: var(--glow-cyan);
 }
