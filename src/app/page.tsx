@@ -174,13 +174,13 @@ export default function CinematicHomePage() {
               Discover concerts, rooftop sessions & unforgettable nights.
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-2">
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-semibold text-sm md:text-base h-10 md:h-12 px-5 md:px-7 rounded-full phela-gradient text-white hover:shadow-glow-purple flex items-center justify-center gap-1.5">
-                <Ticket size={14} />
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-3">
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-semibold text-base md:text-base h-12 md:h-12 px-6 md:px-7 rounded-full phela-gradient text-white hover:shadow-glow-purple flex items-center justify-center gap-2">
+                <Ticket size={18} />
                 Explore Events
               </motion.button>
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-medium text-sm md:text-base h-10 md:h-12 px-5 md:px-7 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 flex items-center justify-center gap-1.5">
-                <Play size={14} />
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="font-sans font-medium text-base md:text-base h-12 md:h-12 px-6 md:px-7 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 flex items-center justify-center gap-2">
+                <Play size={18} />
                 Watch Reel
               </motion.button>
             </motion.div>
@@ -232,12 +232,12 @@ export default function CinematicHomePage() {
             <div className="absolute top-3 left-3">
               <span className="px-2 py-1 rounded-full bg-vivid-cyan/20 text-vivid-cyan text-xs font-bold">FEATURED</span>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-4">
-              <h3 className="font-display text-xl font-bold text-white mb-1">{featuredEvent.title}</h3>
-              <p className="text-vivid-cyan font-medium text-sm mb-2">{featuredEvent.date}</p>
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+              <h3 className="font-display text-lg font-bold text-white mb-1">{featuredEvent.title}</h3>
+              <p className="text-cyan-400 font-medium text-sm mb-2">{featuredEvent.date}</p>
               <div className="flex items-center justify-between">
                 <span className="text-phela-purple font-bold">{featuredEvent.price}</span>
-                <span className="px-3 py-1.5 rounded-full bg-phela-purple text-white text-sm font-semibold">Book Now</span>
+                <span className="px-4 py-2 rounded-full bg-phela-purple text-white text-sm font-semibold">Book Now</span>
               </div>
             </div>
           </div>
@@ -307,13 +307,13 @@ export default function CinematicHomePage() {
             </button>
           </div>
           
-          {/* Mobile arrows below */}
-          <div className="flex md:hidden items-center justify-between mt-4">
-            <button onClick={scrollLeft} disabled={trendingIndex === 0} className="flex-1 py-3 rounded-full bg-slate/50 border border-white/5 text-white/60 disabled:opacity-30">
-              ← Previous
+          {/* Mobile arrows - icon buttons */}
+          <div className="flex md:hidden items-center justify-between mt-4 px-2">
+            <button onClick={scrollLeft} disabled={trendingIndex === 0} className="w-12 h-12 rounded-full bg-slate/60 border border-white/10 flex items-center justify-center text-white/70 disabled:opacity-30">
+              <ChevronLeft size={22} />
             </button>
-            <button onClick={scrollRight} disabled={trendingIndex >= trendingEvents.length - 1} className="flex-1 py-3 rounded-full bg-slate/50 border border-white/5 text-white/60 text-right disabled:opacity-30">
-              Next →
+            <button onClick={scrollRight} disabled={trendingIndex >= trendingEvents.length - 1} className="w-12 h-12 rounded-full bg-slate/60 border border-white/10 flex items-center justify-center text-white/70 disabled:opacity-30">
+              <ChevronRight size={22} />
             </button>
           </div>
           
