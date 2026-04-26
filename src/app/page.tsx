@@ -205,7 +205,7 @@ export default function CinematicHomePage() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <h3 className="font-display text-[42px] font-extrabold text-white mb-2 leading-tight">{featuredEvent.title}</h3>
-                  <p className="text-white/90 text-lg font-medium mb-4">{featuredEvent.venue}</p>
+                  <p className="text-vivid-cyan font-medium mb-4">{featuredEvent.venue}</p>
                   <div className="flex items-center gap-6 text-white/62 text-sm mb-6">
                     <span className="flex items-center gap-2"><MapPin size={16} /> {featuredEvent.date}</span>
                     <span className="flex items-center gap-2"><Clock size={16} /> {featuredEvent.time}</span>
@@ -238,7 +238,7 @@ export default function CinematicHomePage() {
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <h3 className="font-display text-2xl font-bold text-white mb-1">{featuredEvent.title}</h3>
-              <p className="text-white/90 text-sm font-medium mb-3">{featuredEvent.date}</p>
+              <p className="text-vivid-cyan font-medium mb-3">{featuredEvent.date}</p>
               <div className="flex items-center justify-between">
                 <span className="text-phela-purple font-bold">{featuredEvent.price}</span>
                 <span className="px-4 py-2 rounded-full bg-phela-purple text-white text-sm font-semibold">Book Now</span>
