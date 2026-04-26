@@ -24,7 +24,8 @@ import {
   Droplets,
   Sparkles,
   Star,
-  Crown
+  Crown,
+  Home
 } from "lucide-react";
 
 const trendingEvents = [
@@ -144,22 +145,6 @@ export default function CinematicHomePage() {
             {/* Mobile - Just User icon on far right */}
             <button className="md:hidden w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white/70">
               <User size={16} />
-            </button>
-          </div>
-        </div>
-      </motion.nav>
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
-              <Search size={18} />
-            </button>
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors relative">
-              <Bell size={18} />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full" />
-            </button>
-            <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/82 hover:text-white transition-colors">
-              <Wallet size={18} />
-            </button>
-            <button className="w-10 h-10 rounded-full phela-gradient flex items-center justify-center text-white shadow-glow-purple">
-              <User size={18} />
             </button>
           </div>
         </div>
@@ -427,19 +412,19 @@ export default function CinematicHomePage() {
         </div>
       </section>
 
-      {/* Mobile Bottom Floating Nav */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md">
-        <div className="flex items-center justify-around h-16 px-4 rounded-full bg-slate/80 backdrop-blur-xl border border-white/8">
+      {/* Mobile Bottom Floating Nav - Premium Styling */}
+      <nav className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
+        <div className="flex items-center justify-between h-14 px-3 py-2 rounded-2xl bg-slate/60 backdrop-blur-xl border border-white/5">
           {[
-            { icon: Sparkles, label: "Home", href: "/" },
-            { icon: Calendar, label: "Events", href: "/events" },
-            { icon: Search, label: "Discover", href: "/discover" },
-            { icon: Heart, label: "Saved", href: "/saved" },
-            { icon: User, label: "Profile", href: "/profile" },
-          ].map((item) => (
-            <Link key={item.label} href={item.href} className="flex flex-col items-center gap-1 p-2 text-white/60 hover:text-white transition-colors">
-              <item.icon size={20} />
-              <span className="text-[10px]">{item.label}</span>
+            { IconComponent: Home, label: "Home", href: "/", active: true },
+            { IconComponent: Calendar, label: "Events", href: "/events", active: false },
+            { IconComponent: Search, label: "Discover", href: "/discover", active: false },
+            { IconComponent: Heart, label: "Saved", href: "/saved", active: false },
+            { IconComponent: User, label: "Profile", href: "/profile", active: false },
+          ].map(({ IconComponent, label, href, active }) => (
+            <Link key={label} href={href} className={`flex flex-col items-center gap-0.5 p-1.5 rounded-xl transition-all ${active ? "bg-phela-purple/15" : ""}`}>
+              <IconComponent size={active ? 22 : 20} className={active ? "text-phela-purple" : "text-white/50"} strokeWidth={active ? 2.5 : 1.5} />
+              <span className={`text-[9px] font-medium ${active ? "text-phela-purple" : "text-white/40"}`}>{label}</span>
             </Link>
           ))}
         </div>
